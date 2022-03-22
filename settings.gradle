@@ -1,0 +1,10 @@
+include ':navigation'
+include ':create_edit_todo_core'
+include ':feature_edit_todo'
+include ':feature_create_todo'
+include ':feature_home'
+include ':feature_login'
+include ':feature_splash_screen'
+include ':core'
+include ':app'
+rootProject.name = "TinDo"

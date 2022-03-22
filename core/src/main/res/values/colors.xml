@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#000000</color>
+    <color name="primaryLightColor">#000000</color>
+    <color name="primaryDarkColor">#000000</color>
+
+    <color name="secondaryColor">#ffffff</color>
+    <color name="secondaryLightColor">#ffffff</color>
+    <color name="secondaryDarkColor">#ffffff</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <!-- TinDo Colors -->
+    <color name="tinDoRed">#ef9a9a</color>
+    <color name="tinDoYellow">#fff59d</color>
+    <color name="tinDoBlue">#90caf9</color>
+    <color name="tinDoGreen">#a5d6a7</color>
+    <color name="tinDoPink">#f48fb1</color>
+    <color name="tinDoOrange">#ffcc80</color>
+    <color name="tinDoTeal">#80cbc4</color>
+    <color name="tinDoWhite">#eeeeee</color>
+</resources>

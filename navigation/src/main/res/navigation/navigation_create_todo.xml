@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_create_todo"
+    app:startDestination="@id/createTodoFragment">
+
+    <fragment
+        android:id="@+id/createTodoFragment"
+        android:name="com.loyaltiez.feature_create_todo.presentation.fragments.CreateTodoFragment">
+
+        <action
+            android:id="@+id/action_createTodoFragment_to_homeActivity"
+            app:destination="@id/homeActivity"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.loyaltiez.feature_home.HomeActivity" />
+
+</navigation>

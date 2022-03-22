@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/splashscreenFragment">
+
+    <fragment
+        android:id="@+id/splashscreenFragment"
+        android:name="com.loyaltiez.feature_splash_screen.presentation.fragments.SplashscreenFragment">
+
+        <action
+            android:id="@+id/action_splashscreenFragment_to_loginActivity"
+            app:destination="@id/loginActivity"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.loyaltiez.feature_login.LoginActivity" />
+
+</navigation>

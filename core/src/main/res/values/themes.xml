@@ -1,0 +1,87 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.TinDo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSecondary</item>
+        <!-- Customize theme here. -->
+
+        <item name="toolbarStyle">@style/Widget.TinDo.Toolbar</item>
+
+        <!-- Typography -->
+        <!-- Headline -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.TinDo.Headline1
+        </item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.TinDo.Headline2
+        </item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.TinDo.Headline3
+        </item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.TinDo.Headline4
+        </item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.TinDo.Headline5
+        </item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.TinDo.Headline6
+        </item>
+
+        <!-- Subtitle -->
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.TinDo.Subtitle1
+        </item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.TinDo.Subtitle2
+        </item>
+
+        <!-- Body -->
+        <item name="textAppearanceBody1">@style/TextAppearance.TinDo.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.TinDo.Body2</item>
+
+        <!-- Caption -->
+        <item name="textAppearanceCaption">@style/TextAppearance.TinDo.Caption</item>
+
+        <!-- Button -->
+        <item name="textAppearanceButton">@style/TextAppearance.TinDo.Button</item>
+
+        <!-- Overline -->
+        <item name="textAppearanceOverline">@style/TextAppearance.TinDo.Overline</item>
+
+        <!-- Components -->
+
+        <!-- Shape of small components. -->
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.TinDo.SmallComponent
+        </item>
+
+        <item name="textInputStyle">@style/Widget.TinDo.TextInputLayout</item>
+
+        <item name="materialButtonOutlinedStyle">@style/Widget.TinDo.Button.OutlinedButton
+        </item>
+
+        <item name="materialButtonStyle">@style/Widget.TinDo.Button
+        </item>
+
+        <item name="linearProgressIndicatorStyle">
+            @style/Widget.TinDo.LinearProgressIndicator
+        </item>
+
+        <item name="circularProgressIndicatorStyle">
+            @style/Widget.TinDo.LinearProgressIndicator
+        </item>
+
+        <item name="floatingActionButtonStyle">@style/Widget.TinDo.FloatingActionButton</item>
+
+        <!-- Shape of medium components. -->
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.TinDo.MediumComponent
+        </item>
+
+        <!-- Shape of large components. -->
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.TinDo.LargeComponent
+        </item>
+    </style>
+</resources>

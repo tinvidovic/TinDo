@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="password_too_short_error">
+        <item quantity="zero">Password must have at least %d characters</item>
+        <item quantity="one">Password must have at least %d character</item>
+        <item quantity="two">Password must have at least %d characters</item>
+        <item quantity="few">Password must have at least %d characters</item>
+        <item quantity="many">Password must have at least %d characters</item>
+        <item quantity="other">Password must have at least %d characters</item>
+    </plurals>
+    <plurals name="title_too_short_error">
+        <item quantity="zero">Title must have at least %d characters</item>
+        <item quantity="one">Title must have at least %d character</item>
+        <item quantity="two">Title must have at least %d characters</item>
+        <item quantity="few">Title must have at least %d characters</item>
+        <item quantity="many">Title must have at least %d characters</item>
+        <item quantity="other">Title must have at least %d characters</item>
+    </plurals>
+    <plurals name="description_too_short_error">
+        <item quantity="zero">Description must have at least %d characters</item>
+        <item quantity="one">Description must have at least %d character</item>
+        <item quantity="two">Description must have at least %d characters</item>
+        <item quantity="few">Description must have at least %d characters</item>
+        <item quantity="many">Description must have at least %d characters</item>
+        <item quantity="other">Description must have at least %d characters</item>
+    </plurals>
+</resources>

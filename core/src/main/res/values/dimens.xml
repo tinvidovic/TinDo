@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="input_to_screen_horizontal_margin">32dp</dimen>
+    <dimen name="input_to_textView_top_margin">16dp</dimen>
+    <dimen name="input_to_input_top_margin">16dp</dimen>
+    <dimen name="input_to_radioGroup_top_margin">16dp</dimen>
+
+    <dimen name="button_to_screen_horizontal_margin">32dp</dimen>
+    <dimen name="button_to_screen_bottom_margin">16dp</dimen>
+
+    <dimen name="title_to_screen_top_margin">4dp</dimen>
+
+    <dimen name="textView_to_textView_top_margin">16dp</dimen>
+    <dimen name="textView_to_screen_horizontal_margin">32dp</dimen>
+    <dimen name="textView_to_input_top_margin">16dp</dimen>
+
+    <dimen name="recyclerView_to_screen_horizontal_margin">16dp</dimen>
+    <dimen name="recyclerView_to_textView_top_margin">8dp</dimen>
+
+    <dimen name="fab_to_screen_horizontal_margin">16dp</dimen>
+    <dimen name="fab_to_screen_bottom_margin">16dp</dimen>
+
+    <dimen name="radioGroup_screen_horizontal_margin">8dp</dimen>
+    <dimen name="radioGroup_textView_top_margin">16dp</dimen>
+
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.loyaltiez.feature_home.presentation.view_models.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.fragments.HomeFragment">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/textView_to_screen_horizontal_margin"
+            android:layout_marginTop="@dimen/title_to_screen_top_margin"
+            android:layout_marginEnd="@dimen/textView_to_screen_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/home_fragment_title"
+            android:textAppearance="@style/TextAppearance.TinDo.Headline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTodos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/recyclerView_to_screen_horizontal_margin"
+            android:layout_marginTop="@dimen/recyclerView_to_textView_top_margin"
+            android:layout_marginEnd="@dimen/recyclerView_to_screen_horizontal_margin"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintVertical_bias="1.0"
+            tools:listitem="@layout/tindo_item" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCreateTodo"
+            style="?attr/floatingActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fab_to_screen_horizontal_margin"
+            android:layout_marginEnd="@dimen/fab_to_screen_horizontal_margin"
+            android:layout_marginBottom="@dimen/fab_to_screen_bottom_margin"
+            android:contentDescription="@string/button_create_todo_cd"
+            android:onClick="@{() -> viewModel.onCreateToDoClicked()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/baseline_add_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

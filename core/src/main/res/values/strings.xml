@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Core -->
+    <string name="logo_text">TinDo</string>
+
+    <!-- Login -->
+    <string name="welcome_text">Welcome!</string>
+    <string name="email_address_hint">E-mail Address</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+
+    <!-- Home -->
+    <string name="home_fragment_title">Your TinDo\'s</string>
+    <string name="button_create_todo_cd">Create To Do</string>
+
+    <!-- CreateEditTodo Core -->
+    <string name="color_text">Color</string>
+    <string name="title_hint">Title</string>
+    <string name="description_hint">Description</string>
+    <string name="remind_me_text">Remind Me</string>
+    <string name="daily_button">Daily</string>
+    <string name="weekly_button">Weekly</string>
+    <string name="remind_me_at_hint">Remind Me At</string>
+    <string name="starting_on_hint">Starting On</string>
+
+    <!-- CreateTodo -->
+    <string name="create_todo_fragment_title">Create TinDo</string>
+    <string name="button_create">Create</string>
+
+    <!-- EditTodo -->
+    <string name="edit_todo_fragment_title">Edit TinDo</string>
+    <string name="button_save">Save</string>
+
+    <!-- Errors -->
+    <string name="invalid_email_error">Invalid e-mail address</string>
+    <string name="title_too_long_error">Title too long</string>
+    <string name="description_too_long_error">Description too long</string>
+    <string name="remind_me_at_error">Select a time</string>
+    <string name="starting_on_error">Select a date</string>
+
+</resources>

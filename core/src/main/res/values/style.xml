@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.TinDo.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="titleTextAppearance">@style/TextAppearance.TinDo.ToolbarTitle</item>
+    </style>
+
+    <style name="ShapeAppearance.TinDo.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
+    </style>
+
+    <style name="Widget.TinDo.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearance">@style/ShapeAppearance.TinDo.SmallComponent</item>
+    </style>
+
+    <style name="Widget.TinDo.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearance">@style/ShapeAppearance.TinDo.SmallComponent</item>
+        <item name="android:textAppearance">@style/TextAppearance.TinDo.Button</item>
+        <item name="strokeColor">@color/primaryColor</item>
+    </style>
+
+    <style name="Widget.TinDo.Button" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.TinDo.SmallComponent</item>
+        <item name="android:textAppearance">@style/TextAppearance.TinDo.Button</item>
+        <item name="strokeColor">@color/primaryColor</item>
+    </style>
+
+    <style name="Widget.TinDo.LinearProgressIndicator" parent="Widget.MaterialComponents.LinearProgressIndicator">
+        <item name="trackThickness">10dp</item>
+        <item name="trackCornerRadius">15dp</item>
+    </style>
+
+    <style name="Widget.TinDo.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="trackThickness">10dp</item>
+        <item name="trackCornerRadius">15dp</item>
+    </style>
+
+    <style name="ThemeOverlay.TinDo.FloatingActionButton" parent="">
+        <item name="colorSecondary">@color/primaryColor</item>
+        <item name="colorOnSecondary">@color/primaryTextColor</item>
+        <item name="colorOnSurface">@color/primaryColor</item>
+    </style>
+
+    <style name="Widget.TinDo.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TinDo.FloatingActionButton</item>
+    </style>
+
+    <style name="ShapeAppearance.TinDo.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
+    </style>
+
+    <style name="ShapeAppearance.TinDo.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
+    </style>
+</resources>

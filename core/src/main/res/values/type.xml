@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Typography -->
+
+    <!-- Headline -->>
+
+    <style name="TextAppearance.TinDo.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+
+        <item name="fontFamily">@font/italianno</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+
+        <item name="fontFamily">@font/italianno</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+
+        <item name="fontFamily">@font/italianno</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+
+        <item name="fontFamily">@font/italianno</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+
+        <item name="fontFamily">@font/italianno</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+
+        <item name="fontFamily">@font/italianno</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <!-- Subtitle -->
+
+    <style name="TextAppearance.TinDo.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/montserrat_alternates</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/montserrat_alternates</item>
+    </style>
+
+    <!-- Body -->
+
+    <style name="TextAppearance.TinDo.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/gentium_basic</item>
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearance.TinDo.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/gentium_basic</item>
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- Caption -->
+
+    <style name="TextAppearance.TinDo.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/gentium_basic</item>
+    </style>
+
+    <!-- Tabs -->
+
+    <style name="TextAppearance.TinDo.Tab" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/gentium_basic</item>
+    </style>
+
+    <!-- Button -->
+
+    <style name="TextAppearance.TinDo.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/gentium_basic</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- Overrline -->
+
+    <style name="TextAppearance.TinDo.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/gentium_basic</item>
+    </style>
+
+    <!-- Toolbar Title -->
+    <style name="TextAppearance.TinDo.ToolbarTitle" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/gentium_basic</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+</resources>

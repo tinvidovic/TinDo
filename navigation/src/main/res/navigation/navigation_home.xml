@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_home"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.loyaltiez.feature_home.presentation.fragments.HomeFragment">
+
+        <action
+            android:id="@+id/action_homeFragment_to_createTodoActivity"
+            app:destination="@id/createTodoActivity"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_homeFragment_to_editTodoActivity"
+            app:destination="@id/editTodoActivity"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <activity
+        android:id="@+id/createTodoActivity"
+        android:name="com.loyaltiez.feature_create_todo.CreateTodoActivity" />
+
+    <activity
+        android:id="@+id/editTodoActivity"
+        android:name="com.loyaltiez.feature_edit_todo.EditTodoActivity" >
+        <argument
+            android:name="todo"
+            app:argType="com.loyaltiez.core.domain.ToDo" />
+    </activity>
+
+</navigation>
