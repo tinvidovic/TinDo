@@ -2,7 +2,6 @@ package com.loyaltiez.core.domain
 
 import android.os.Parcelable
 import com.loyaltiez.core.helper.converters.convertTimeToString
-import kotlinx.parcelize.Parcelize
 import java.sql.Time
 
 abstract class ToDo(

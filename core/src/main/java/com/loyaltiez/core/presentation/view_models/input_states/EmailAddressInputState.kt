@@ -57,4 +57,9 @@ class EmailAddressInputState(initialValue: String) {
 
         mError.value = null
     }
+
+    fun setError(errorResourceId: Int) {
+
+        mError.value = errorResourceId
+    }
 }

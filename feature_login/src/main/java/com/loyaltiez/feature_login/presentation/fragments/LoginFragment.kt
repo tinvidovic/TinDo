@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.loyaltiez.core.presentation.fragments.TinDoFragment
+import com.loyaltiez.core.util.NetworkResource
 import com.loyaltiez.feature_login.R
 import com.loyaltiez.feature_login.databinding.LoginFragmentBinding
 import com.loyaltiez.feature_login.presentation.view_models.LoginViewModel
@@ -61,6 +63,28 @@ class LoginFragment : TinDoFragment() {
         setNavigationObservers()
 
         setErrorObservers()
+
+        viewModel.loginResponse.observe(
+            viewLifecycleOwner
+        ){
+
+            when(it){
+                is NetworkResource.Loading -> {
+                    binding.progressBar.show()
+                }
+                is NetworkResource.Success -> {
+                    binding.progressBar.hide()
+
+                    viewModel.onLoginSuccess(it)
+
+                }
+                is NetworkResource.Error -> {
+                    binding.progressBar.hide()
+
+                    viewModel.onLoginError(it)
+                }
+            }
+        }
     }
 
     private fun setNavigationObservers() {

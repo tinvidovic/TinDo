@@ -1,7 +1,6 @@
 package com.loyaltiez.feature_edit_todo
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.loyaltiez.core.domain.ToDo
 

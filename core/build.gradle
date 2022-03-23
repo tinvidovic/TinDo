@@ -66,6 +66,11 @@ dependencies {
     def liveData_version = "2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveData_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModel_version"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
 }
 // Allow references to generated code
 kapt {

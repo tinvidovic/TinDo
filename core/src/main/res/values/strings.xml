@@ -34,6 +34,7 @@
 
     <!-- Errors -->
     <string name="invalid_email_error">Invalid e-mail address</string>
+    <string name="email_address_unrecognized">There is no account matching the provided e-mail address</string>
     <string name="title_too_long_error">Title too long</string>
     <string name="description_too_long_error">Description too long</string>
     <string name="remind_me_at_error">Select a time</string>

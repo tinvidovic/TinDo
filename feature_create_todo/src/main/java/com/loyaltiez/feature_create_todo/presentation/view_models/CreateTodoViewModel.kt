@@ -9,8 +9,6 @@ import com.loyaltiez.core.domain.WeeklyToDo
 import com.loyaltiez.create_edit_todo_core.domain.TodoType
 import com.loyaltiez.create_edit_todo_core.presentation.view_models.CreateEditTodoViewModel
 import com.loyaltiez.feature_create_todo.R
-import java.sql.Date
-import java.sql.Time
 
 class CreateTodoViewModel(mApplication: Application) : CreateEditTodoViewModel(mApplication) {
 
