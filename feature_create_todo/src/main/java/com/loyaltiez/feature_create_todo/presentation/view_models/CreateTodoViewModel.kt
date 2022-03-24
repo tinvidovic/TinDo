@@ -1,17 +1,25 @@
 package com.loyaltiez.feature_create_todo.presentation.view_models
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.loyaltiez.core.TindoApplication
+import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
 import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.model.todo.WeeklyToDo
 import com.loyaltiez.core.domain.repository.IToDoDAO
+import com.loyaltiez.core.services.AlarmService
 import com.loyaltiez.create_edit_todo_core.domain.TodoType
 import com.loyaltiez.create_edit_todo_core.presentation.view_models.CreateEditTodoViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 
 class CreateTodoViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) : CreateEditTodoViewModel(mApplication) {
 
@@ -45,6 +53,8 @@ class CreateTodoViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) 
             mNavigateToHome.value = true
         }
     }
+
+
 
     // CLICK HANDLERS:
     fun onCreateClicked() {

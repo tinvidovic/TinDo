@@ -2,6 +2,7 @@ package com.loyaltiez.create_edit_todo_core.presentation.view_models
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.presentation.view_models.input_states.*
 import com.loyaltiez.create_edit_todo_core.domain.ToDoColor
 import com.loyaltiez.create_edit_todo_core.domain.TodoType

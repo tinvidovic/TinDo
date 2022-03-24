@@ -1,5 +1,7 @@
 package com.loyaltiez.feature_edit_todo.presentation.fragments
 
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +14,12 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
 import com.loyaltiez.core.data.data_source.TindoRoomDatabase
 import com.loyaltiez.core.data.repository.ToDoDAO
+import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.presentation.fragments.TinDoFragment
+import com.loyaltiez.core.services.AlarmService
 import com.loyaltiez.create_edit_todo_core.domain.ToDoColor
 import com.loyaltiez.create_edit_todo_core.domain.TodoType
 import com.loyaltiez.feature_edit_todo.EditTodoActivity
@@ -23,6 +28,7 @@ import com.loyaltiez.feature_edit_todo.databinding.EditTodoFragmentBinding
 import com.loyaltiez.feature_edit_todo.presentation.view_models.EditTodoViewModel
 import java.sql.Date
 import java.sql.Time
+import java.util.*
 
 class EditTodoFragment : TinDoFragment() {
 
@@ -68,11 +74,57 @@ class EditTodoFragment : TinDoFragment() {
         return binding.root
     }
 
+    private lateinit var pendingIntent: PendingIntent
+
+    private fun updateAlarm(toDo: ToDo, type: String) {
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, toDo.time.hours)
+            set(Calendar.MINUTE, toDo.time.minutes)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val alarmService = AlarmService(requireContext())
+
+        val intent = Intent(requireActivity(), AlarmReceiver::class.java)
+
+        intent.putExtra("title", toDo.title)
+        intent.putExtra("description", toDo.description)
+        intent.putExtra("time", toDo.getTimeString())
+        intent.putExtra("id", toDo.id)
+        intent.putExtra("type", type)
+
+        pendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            toDo.id!!,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        alarmService.setAlarm(
+            calendar.timeInMillis,
+            pendingIntent
+        )
+    }
+
     private fun setObservers() {
 
         setNavigationObservers()
         setErrorObservers()
         setPickerObservers()
+
+        viewModel.newTodo.observe(
+            viewLifecycleOwner
+        ) {
+            if (it != null) {
+
+                if (it.date == null)
+                    updateAlarm(it, "daily")
+                else
+                    updateAlarm(it, "weekly")
+            }
+        }
     }
 
     private fun setNavigationObservers() {

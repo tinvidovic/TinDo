@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+
     <application
         android:name="com.loyaltiez.core.TindoApplication"
         android:allowBackup="true"
@@ -32,6 +34,8 @@
         <activity android:name="com.loyaltiez.feature_create_todo.CreateTodoActivity" />
 
         <activity android:name="com.loyaltiez.feature_edit_todo.EditTodoActivity" />
+
+        <receiver android:name="com.loyaltiez.core.broadcast_receivers.AlarmReceiver" />
 
     </application>
 

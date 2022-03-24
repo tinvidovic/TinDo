@@ -1,10 +1,11 @@
 package com.loyaltiez.feature_login.presentation.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.edit
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -75,6 +76,8 @@ class LoginFragment : TinDoFragment() {
                 is NetworkResource.Success -> {
                     binding.progressBar.hide()
 
+                    saveUser()
+
                     viewModel.onLoginSuccess(it)
 
                 }
@@ -87,11 +90,23 @@ class LoginFragment : TinDoFragment() {
         }
     }
 
+    private fun saveUser() {
+
+        activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)?.edit {
+            putString(
+                getString(R.string.sp_logged_in_as_key),
+                viewModel.emailAddressInputState.formattedValue.value!!
+            )
+            apply()
+            commit()
+        }
+    }
+
     private fun setNavigationObservers() {
 
         observeFragmentToActivityNavigationFlag(
             viewModel.navigateToHome,
-            { LoginFragmentDirections.actionLoginFragmentToHomeActivity() },
+            { LoginFragmentDirections.actionLoginFragmentToHomeActivity()},
             viewModel::onNavigateToHomeComplete,
             true
         )

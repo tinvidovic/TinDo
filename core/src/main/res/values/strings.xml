@@ -39,5 +39,8 @@
     <string name="description_too_long_error">Description too long</string>
     <string name="remind_me_at_error">Select a time</string>
     <string name="starting_on_error">Select a date</string>
+    <string name="channel_name">notification_channel</string>
+    <string name="sp_logged_in_as_key">\"LOGGED_IN_AS\"</string>
+    <string name="preference_file_key">\"PREFERENCE_FILE_KEY\"</string>
 
 </resources>

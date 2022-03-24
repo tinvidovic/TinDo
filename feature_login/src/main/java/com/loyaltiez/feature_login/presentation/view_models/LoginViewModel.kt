@@ -1,6 +1,7 @@
 package com.loyaltiez.feature_login.presentation.view_models
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import com.loyaltiez.core.TindoApplication
 import com.loyaltiez.core.domain.model.reqres.LoginResponse
@@ -34,6 +35,11 @@ class LoginViewModel(val mApplication: Application) :
     // USE CASES:
     private val loginUseCase =
         ((mApplication as TindoApplication).appContainer as LoginActivityContainer).loginUseCase
+
+    // UTILITY:
+    private val mSaveUser = MutableLiveData(false)
+    val saveUser: LiveData<Boolean>
+        get() = mSaveUser
 
     class Factory(application: Application) : ViewModelProvider.Factory {
 
@@ -82,6 +88,12 @@ class LoginViewModel(val mApplication: Application) :
     private fun isInputValid(): Boolean {
 
         return emailAddressInputState.isValid() && passwordInputState.isValid()
+    }
+
+    // UTILITY:
+    fun onSaveUserComplete() {
+
+        mSaveUser.value = false
     }
 
     private fun logIn(email: String, password: String){

@@ -1,9 +1,7 @@
 package com.loyaltiez.feature_edit_todo.presentation.view_models
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.loyaltiez.core.TindoApplication
 import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
@@ -16,6 +14,10 @@ import kotlinx.coroutines.launch
 
 class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDoDAO: IToDoDAO) : CreateEditTodoViewModel(mApplication) {
 
+    // NEW TINDO:
+    private val mNewTodo = MutableLiveData<ToDo?>(null)
+    val newTodo: LiveData<ToDo?>
+        get() = mNewTodo
 
     init {
 
@@ -76,10 +78,12 @@ class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDo
 
                 val dailyToDo = DailyToDo( (mApplication as TindoApplication).loggedInUser!!.email, titleInputState.formattedValue.value!!,
                     descriptionInputState.formattedValue.value!!, mTodoColor.value!!.color, remindMeAtState.input.value!!, mTodo.id )
+                mNewTodo.value = dailyToDo
                 createTodo(dailyToDo)
             } else if (mTodoType.value == TodoType.WEEKLY){
                 val weeklyToDo = WeeklyToDo( (mApplication as TindoApplication).loggedInUser!!.email, titleInputState.formattedValue.value!!,
                     descriptionInputState.formattedValue.value!!, mTodoColor.value!!.color, remindMeAtState.input.value!!, startingOnState.input.value!!, mTodo.id )
+                mNewTodo.value = weeklyToDo
                 createTodo(weeklyToDo)
             }
 

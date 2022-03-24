@@ -1,9 +1,14 @@
 package com.loyaltiez.feature_create_todo.presentation.fragments
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -12,9 +17,13 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
 import com.loyaltiez.core.data.data_source.TindoRoomDatabase
 import com.loyaltiez.core.data.repository.ToDoDAO
+import com.loyaltiez.core.domain.model.todo.ToDo
+import com.loyaltiez.core.domain.model.todo.WeeklyToDo
 import com.loyaltiez.core.presentation.fragments.TinDoFragment
+import com.loyaltiez.core.services.AlarmService
 import com.loyaltiez.create_edit_todo_core.domain.ToDoColor
 import com.loyaltiez.create_edit_todo_core.domain.TodoType
 import com.loyaltiez.feature_create_todo.R
@@ -22,6 +31,7 @@ import com.loyaltiez.feature_create_todo.databinding.CreateTodoFragmentBinding
 import com.loyaltiez.feature_create_todo.presentation.view_models.CreateTodoViewModel
 import java.sql.Date
 import java.sql.Time
+import java.util.*
 
 class CreateTodoFragment : TinDoFragment() {
 
@@ -65,6 +75,9 @@ class CreateTodoFragment : TinDoFragment() {
 
         return binding.root
     }
+
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var pendingIntent: PendingIntent
 
     private fun setObservers() {
 

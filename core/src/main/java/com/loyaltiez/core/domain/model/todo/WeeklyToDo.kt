@@ -29,6 +29,4 @@ class WeeklyToDo(
     override fun toString(): String {
         return super.toString()
     }
-
-
 }

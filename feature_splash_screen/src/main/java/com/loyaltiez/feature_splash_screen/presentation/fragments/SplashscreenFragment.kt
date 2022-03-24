@@ -1,6 +1,7 @@
 package com.loyaltiez.feature_splash_screen.presentation.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.loyaltiez.core.TindoApplication
 import com.loyaltiez.core.animation.ViewAnimator
+import com.loyaltiez.core.domain.model.user.User
 import com.loyaltiez.feature_splash_screen.R
 import com.loyaltiez.feature_splash_screen.databinding.SplashscreenFragmentBinding
 import com.loyaltiez.feature_splash_screen.presentation.view_models.SplashscreenViewModel
@@ -83,9 +86,27 @@ class SplashscreenFragment : Fragment() {
         lifecycleScope.launchWhenResumed {
             val navController = findNavController()
 
-            navController.navigate(
-                SplashscreenFragmentDirections.actionSplashscreenFragmentToLoginActivity()
+            val sharedPreferences = activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
+            val loggedInAs = sharedPreferences?.getString(
+                getString(R.string.sp_logged_in_as_key),
+                null
             )
+
+            if (loggedInAs != null){
+                // For now the logged in user is just injected to the AppContainer (in a production app this would have to be handled differently
+                (requireActivity().application as TindoApplication).loggedInUser = User(loggedInAs)
+
+                navController.navigate(
+                    SplashscreenFragmentDirections.actionSplashscreenFragmentToHomeActivity()
+                )
+            } else {
+                navController.navigate(
+                    SplashscreenFragmentDirections.actionSplashscreenFragmentToLoginActivity()
+                )
+            }
+
+
 
             // Finish the activity, and remove from back stack
             requireActivity().finishAffinity()
