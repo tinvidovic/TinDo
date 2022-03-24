@@ -6,20 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.loyaltiez.core.data.data_source.TindoRoomDatabase
+import com.loyaltiez.core.data.repository.ToDoDAO
 import com.loyaltiez.core.presentation.fragments.TinDoFragment
 import com.loyaltiez.create_edit_todo_core.domain.ToDoColor
 import com.loyaltiez.create_edit_todo_core.domain.TodoType
-import com.loyaltiez.feature_create_todo.presentation.fragments.CreateTodoFragmentDirections
 import com.loyaltiez.feature_edit_todo.EditTodoActivity
-import com.loyaltiez.feature_edit_todo.EditTodoActivityArgs
 import com.loyaltiez.feature_edit_todo.R
 import com.loyaltiez.feature_edit_todo.databinding.EditTodoFragmentBinding
 import com.loyaltiez.feature_edit_todo.presentation.view_models.EditTodoViewModel
@@ -35,7 +33,8 @@ class EditTodoFragment : TinDoFragment() {
             this,
             EditTodoViewModel.Factory(
                 requireActivity().application,
-                (requireActivity() as EditTodoActivity).todo!!
+                (requireActivity() as EditTodoActivity).todo,
+                ToDoDAO(TindoRoomDatabase.invoke(requireContext()))
             )
         )
             .get(EditTodoViewModel::class.java)
@@ -110,12 +109,16 @@ class EditTodoFragment : TinDoFragment() {
 
         viewModel.todoType.observe(
             viewLifecycleOwner
-        ){
+        ) {
             when (it) {
-                TodoType.DAILY -> { binding.createEditTodoLayout.outlinedTextFieldStartingOn.visibility = View.GONE }
-                TodoType.WEEKLY -> { binding.createEditTodoLayout.outlinedTextFieldStartingOn.visibility = View.VISIBLE }
-                else ->
-                {
+                TodoType.DAILY -> {
+                    binding.createEditTodoLayout.outlinedTextFieldStartingOn.visibility = View.GONE
+                }
+                TodoType.WEEKLY -> {
+                    binding.createEditTodoLayout.outlinedTextFieldStartingOn.visibility =
+                        View.VISIBLE
+                }
+                else -> {
                     // This should never happen, graceful fail is needed based on requirements
                 }
             }
@@ -126,8 +129,8 @@ class EditTodoFragment : TinDoFragment() {
 
         viewModel.showTimePicker.observe(
             viewLifecycleOwner
-        ){
-            if (it){
+        ) {
+            if (it) {
 
                 val timePicker =
                     MaterialTimePicker.Builder()
@@ -149,8 +152,8 @@ class EditTodoFragment : TinDoFragment() {
 
         viewModel.showDatePicker.observe(
             viewLifecycleOwner
-        ){
-            if (it){
+        ) {
+            if (it) {
 
                 val constraintsBuilder =
                     CalendarConstraints.Builder()
@@ -165,7 +168,11 @@ class EditTodoFragment : TinDoFragment() {
 
                 datePicker.addOnPositiveButtonClickListener {
 
-                    viewModel.onStartingOnTextChanged(datePicker.selection?.let { selection -> Date(selection) })
+                    viewModel.onStartingOnTextChanged(datePicker.selection?.let { selection ->
+                        Date(
+                            selection
+                        )
+                    })
                 }
 
                 datePicker.show(parentFragmentManager, "DATE_PICKER")
@@ -211,12 +218,14 @@ class EditTodoFragment : TinDoFragment() {
             when (checkedId) {
                 binding.createEditTodoLayout.radioRed.id -> viewModel.onTodoColorChanged(ToDoColor.RED)
                 binding.createEditTodoLayout.radioYellow.id -> viewModel.onTodoColorChanged(
-                    ToDoColor.YELLOW)
+                    ToDoColor.YELLOW
+                )
                 binding.createEditTodoLayout.radioBlue.id -> viewModel.onTodoColorChanged(ToDoColor.BLUE)
                 binding.createEditTodoLayout.radioGreen.id -> viewModel.onTodoColorChanged(ToDoColor.GREEN)
                 binding.createEditTodoLayout.radioPink.id -> viewModel.onTodoColorChanged(ToDoColor.PINK)
                 binding.createEditTodoLayout.radioOrange.id -> viewModel.onTodoColorChanged(
-                    ToDoColor.ORANGE)
+                    ToDoColor.ORANGE
+                )
                 binding.createEditTodoLayout.radioTeal.id -> viewModel.onTodoColorChanged(ToDoColor.TEAL)
                 binding.createEditTodoLayout.radioWhite.id -> viewModel.onTodoColorChanged(ToDoColor.WHITE)
             }

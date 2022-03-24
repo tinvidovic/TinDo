@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.loyaltiez.core.domain.ToDo
-import com.loyaltiez.core.domain.WeeklyToDo
+import com.loyaltiez.core.domain.model.todo.ToDo
+import com.loyaltiez.core.domain.model.todo.WeeklyToDo
 import com.loyaltiez.feature_home.databinding.TindoItemBinding
 
 class TindoItemAdapter(
     private val mApplication: Application,
     val mEditTindoItemClickListener: EditTindoItemClickListener,
+    val mDeleteTindoItemClickListener: DeleteTindoItemClickListener
 ) : ListAdapter<ToDo, TindoItemAdapter.ViewHolder>(ToDoDiffCallback()) {
 
     // Called when the recycler view needs a view holder
@@ -35,7 +36,8 @@ class TindoItemAdapter(
         holder.bind(
             item,
             mApplication,
-            mEditTindoItemClickListener
+            mEditTindoItemClickListener,
+            mDeleteTindoItemClickListener
         )
 
     }
@@ -47,7 +49,8 @@ class TindoItemAdapter(
         fun bind(
             item: ToDo,
             application: Application,
-            editTindoItemClickListener: EditTindoItemClickListener
+            editTindoItemClickListener: EditTindoItemClickListener,
+            deleteTindoItemClickListener: DeleteTindoItemClickListener
         ) {
 
             // Get the resources for the view
@@ -55,13 +58,19 @@ class TindoItemAdapter(
 
             binding.tindo = item
             binding.editTindoItemClickListener = editTindoItemClickListener
+            binding.deleteTindoItemClickListener = deleteTindoItemClickListener
 
             if (item is WeeklyToDo) {
+
+                binding.chipTodoType.text = "Weekly"
 
                 binding.tvTodoDate.text = item.getDateString()
 
                 binding.tvTodoDate.visibility = View.VISIBLE
                 binding.iconDate.visibility = View.VISIBLE
+            } else {
+
+                binding.chipTodoType.text = "Daily"
             }
 
             binding.cardView.setCardBackgroundColor(application.getColor(item.color))
@@ -113,6 +122,11 @@ class ToDoDiffCallback : DiffUtil.ItemCallback<ToDo>() {
 }
 
 class EditTindoItemClickListener(val clickListener: (todo: ToDo) -> Unit) {
+
+    fun onClick(todo: ToDo) = clickListener(todo)
+}
+
+class DeleteTindoItemClickListener(val clickListener: (todo: ToDo) -> Unit) {
 
     fun onClick(todo: ToDo) = clickListener(todo)
 }

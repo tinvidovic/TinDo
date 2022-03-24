@@ -2,9 +2,14 @@ package com.loyaltiez.feature_home.presentation.view_models
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.loyaltiez.core.domain.ToDo
+import com.loyaltiez.core.TindoApplication
+import com.loyaltiez.core.domain.model.todo.DailyToDo
+import com.loyaltiez.core.domain.model.todo.ToDo
+import com.loyaltiez.core.domain.repository.IToDoDAO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
-class HomeViewModel(mApplication: Application) :
+class HomeViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) :
     AndroidViewModel(mApplication) {
 
     // NAVIGATION:
@@ -16,10 +21,22 @@ class HomeViewModel(mApplication: Application) :
     val navigateToEditToDo: LiveData<ToDo?>
         get() = mNavigateToEditToDo
 
-    class Factory(application: Application) : ViewModelProvider.Factory {
+    // TO DO LIST:
+    private val mToDos = MutableLiveData<MutableList<ToDo>>(mutableListOf())
+    val toDos: LiveData<MutableList<ToDo>>
+        get() = mToDos
+
+    init {
+
+        getDailyToDos()
+
+    }
+
+    class Factory(application: Application, toDoDAO: IToDoDAO) : ViewModelProvider.Factory {
 
         // Get the application
         private val mApplication = application
+        private val mToDoDAO = toDoDAO
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
@@ -27,7 +44,7 @@ class HomeViewModel(mApplication: Application) :
 
                 // We have already checked the casting compatibility
                 @Suppress("UNCHECKED_CAST")
-                return HomeViewModel(mApplication) as T
+                return HomeViewModel(mApplication, mToDoDAO) as T
 
             } else {
 
@@ -48,6 +65,17 @@ class HomeViewModel(mApplication: Application) :
         mNavigateToEditToDo.value = null
     }
 
+    // METHODS:
+    fun getDailyToDos() : Flow<List<ToDo>> = toDoDAO.getToDosForUserEmail( (mApplication as TindoApplication).loggedInUser!!.email )
+
+    fun deleteToDo(todo : ToDo) {
+
+        viewModelScope.launch {
+
+            toDoDAO.deleteToDo(todo)
+        }
+    }
+
     // CLICK HANDLERS:
 
     fun onCreateToDoClicked() {
@@ -58,5 +86,10 @@ class HomeViewModel(mApplication: Application) :
     fun onEditTindoClicked(tindo: ToDo) {
 
         mNavigateToEditToDo.value = tindo
+    }
+
+    fun onDeleteTindoClicked(tindo: ToDo) {
+
+        deleteToDo(tindo)
     }
 }

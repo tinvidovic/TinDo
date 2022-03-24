@@ -98,7 +98,7 @@ class LoginViewModel(val mApplication: Application) :
     fun onLoginSuccess(networkResource: NetworkResource.Success<LoginResponse>) {
 
         // For now the logged in user is just injected to the AppContainer (in a production app this would have to be handled differently
-        (mApplication as TindoApplication).appContainer?.loggedInUser = User(emailAddressInputState.formattedValue.value!!)
+        (mApplication as TindoApplication).loggedInUser = User(emailAddressInputState.formattedValue.value!!)
 
         // Navigate to the home screen
         mNavigateToHome.value = true

@@ -6,17 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
-import com.loyaltiez.core.domain.DailyToDo
-import com.loyaltiez.core.domain.WeeklyToDo
+import com.loyaltiez.core.data.data_source.TindoRoomDatabase
+import com.loyaltiez.core.data.repository.ToDoDAO
+import com.loyaltiez.core.domain.model.todo.DailyToDo
+import com.loyaltiez.core.domain.model.todo.ToDo
+import com.loyaltiez.core.domain.model.todo.WeeklyToDo
 import com.loyaltiez.core.presentation.fragments.TinDoFragment
 import com.loyaltiez.feature_home.R
+import com.loyaltiez.feature_home.adapters.DeleteTindoItemClickListener
 import com.loyaltiez.feature_home.adapters.EditTindoItemClickListener
 import com.loyaltiez.feature_home.adapters.TindoItemAdapter
 import com.loyaltiez.feature_home.databinding.HomeFragmentBinding
 import com.loyaltiez.feature_home.presentation.view_models.HomeViewModel
-import java.sql.Date
-import java.sql.Time
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class HomeFragment : TinDoFragment() {
 
@@ -26,7 +31,8 @@ class HomeFragment : TinDoFragment() {
         ViewModelProvider(
             this,
             HomeViewModel.Factory(
-                requireActivity().application
+                requireActivity().application,
+                ToDoDAO(TindoRoomDatabase.invoke(requireContext()))
             )
         )
             .get(HomeViewModel::class.java)
@@ -70,33 +76,36 @@ class HomeFragment : TinDoFragment() {
             requireActivity().application,
             EditTindoItemClickListener { tindo ->
                 viewModel.onEditTindoClicked(tindo)
+            },
+            DeleteTindoItemClickListener { tindo ->
+                viewModel.onDeleteTindoClicked(tindo)
             }
         )
 
         binding.recyclerViewTodos.adapter = adapter
 
-        adapter.submitList(
-            listOf(
-                DailyToDo(
-                    "Daily ToDo",
-                    "This is a dummy daily ToDo",
-                    R.color.tinDoBlue,
-                    Time(4, 0, 0)
-                ),
-                WeeklyToDo(
-                    "Weekly ToDo",
-                    "This is a dummy weekly ToDo",
-                    R.color.tinDoGreen,
-                    Time(4, 0, 0),
-                    Date(2022, 5, 3)
-                )
-            )
-        )
     }
 
     private fun setObservers() {
 
         setNavigationObservers()
+
+        lifecycle.coroutineScope.launch {
+            viewModel.getDailyToDos().collect {
+                val list = mutableListOf<ToDo>()
+
+                for (todo in it ){
+                    if (todo.date == null){
+                        list.add(DailyToDo(todo.userEmail, todo.title, todo.description, todo.color
+                        , todo.time, todo.id))
+                    } else {
+                        list.add(WeeklyToDo(todo.userEmail, todo.title, todo.description, todo.color
+                            , todo.time, todo.date, todo.id))
+                    }
+                }
+                adapter.submitList(list)
+            }
+        }
     }
 
     private fun setNavigationObservers() {

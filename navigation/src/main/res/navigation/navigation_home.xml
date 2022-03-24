@@ -33,7 +33,7 @@
         android:name="com.loyaltiez.feature_edit_todo.EditTodoActivity" >
         <argument
             android:name="todo"
-            app:argType="com.loyaltiez.core.domain.ToDo" />
+            app:argType="com.loyaltiez.core.domain.model.todo.ToDo" />
     </activity>
 
 </navigation>

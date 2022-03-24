@@ -7,11 +7,15 @@
 
         <variable
             name="tindo"
-            type="com.loyaltiez.core.domain.ToDo" />
+            type="com.loyaltiez.core.domain.model.todo.ToDo" />
 
         <variable
             name="editTindoItemClickListener"
             type="com.loyaltiez.feature_home.adapters.EditTindoItemClickListener" />
+
+        <variable
+            name="deleteTindoItemClickListener"
+            type="com.loyaltiez.feature_home.adapters.DeleteTindoItemClickListener" />
 
     </data>
 
@@ -52,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:padding="4dp"
-                    android:text="@{tindo.toDoType}"
                     tools:text="Daily" />
 
                 <TextView
@@ -133,6 +136,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> deleteTindoItemClickListener.onClick(tindo)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

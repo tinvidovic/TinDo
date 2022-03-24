@@ -8,11 +8,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.loyaltiez.core.data.data_source.TindoRoomDatabase
+import com.loyaltiez.core.data.repository.ToDoDAO
 import com.loyaltiez.core.presentation.fragments.TinDoFragment
 import com.loyaltiez.create_edit_todo_core.domain.ToDoColor
 import com.loyaltiez.create_edit_todo_core.domain.TodoType
@@ -30,7 +31,8 @@ class CreateTodoFragment : TinDoFragment() {
         ViewModelProvider(
             this,
             CreateTodoViewModel.Factory(
-                requireActivity().application
+                requireActivity().application,
+                ToDoDAO(TindoRoomDatabase.invoke(requireContext()))
             )
         )
             .get(CreateTodoViewModel::class.java)

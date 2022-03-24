@@ -2,7 +2,7 @@ package com.loyaltiez.feature_edit_todo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.loyaltiez.core.domain.ToDo
+import com.loyaltiez.core.domain.model.todo.ToDo
 
 class EditTodoActivity : AppCompatActivity() {
 
