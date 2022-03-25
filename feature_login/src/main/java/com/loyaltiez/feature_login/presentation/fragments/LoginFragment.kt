@@ -67,9 +67,9 @@ class LoginFragment : TinDoFragment() {
 
         viewModel.loginResponse.observe(
             viewLifecycleOwner
-        ){
+        ) {
             // Distinguish between the loading, success and error states and act accordingly
-            when(it){
+            when (it) {
                 is NetworkResource.Loading -> {
                     binding.progressBar.show()
                     setUIEnableability(false)
@@ -98,7 +98,7 @@ class LoginFragment : TinDoFragment() {
 
     private fun setUIEnableability(isEnabled: Boolean) {
 
-        for (view in binding.constraintLayout.children){
+        for (view in binding.constraintLayout.children) {
 
             view.isEnabled = isEnabled
         }
@@ -107,7 +107,10 @@ class LoginFragment : TinDoFragment() {
     // Saves the current users e-mail address in the sharedPreferences
     private fun saveUser() {
 
-        activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)?.edit {
+        activity?.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )?.edit {
             putString(
                 getString(R.string.sp_logged_in_as_key),
                 viewModel.emailAddressInputState.formattedValue.value!!
@@ -120,7 +123,7 @@ class LoginFragment : TinDoFragment() {
 
         observeFragmentToActivityNavigationFlag(
             viewModel.navigateToHome,
-            { LoginFragmentDirections.actionLoginFragmentToHomeActivity()},
+            { LoginFragmentDirections.actionLoginFragmentToHomeActivity() },
             viewModel::onNavigateToHomeComplete,
             true
         )

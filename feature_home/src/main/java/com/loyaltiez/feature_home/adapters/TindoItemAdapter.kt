@@ -75,11 +75,17 @@ class TindoItemAdapter(
                 binding.chipTodoType.text = DailyToDo.getTypeString()
             }
 
-            if (item.favourite){
+            if (item.favourite) {
 
-                binding.iconFav.setColorFilter(R.color.favouriteColor,android.graphics.PorterDuff.Mode.MULTIPLY)
+                binding.iconFav.setColorFilter(
+                    R.color.favouriteColor,
+                    android.graphics.PorterDuff.Mode.MULTIPLY
+                )
             } else {
-                binding.iconFav.setColorFilter(R.color.primaryColor,android.graphics.PorterDuff.Mode.MULTIPLY)
+                binding.iconFav.setColorFilter(
+                    R.color.primaryColor,
+                    android.graphics.PorterDuff.Mode.MULTIPLY
+                )
             }
 
             binding.cardView.setCardBackgroundColor(application.getColor(item.color))

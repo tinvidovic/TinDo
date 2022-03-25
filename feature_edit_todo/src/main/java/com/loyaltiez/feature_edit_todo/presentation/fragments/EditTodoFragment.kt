@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
-import com.loyaltiez.core.data.data_source.TindoRoomDatabase
-import com.loyaltiez.core.data.repository.ToDoDAO
 import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.model.todo.WeeklyToDo

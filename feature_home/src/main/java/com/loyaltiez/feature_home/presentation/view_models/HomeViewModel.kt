@@ -4,9 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.loyaltiez.core.TindoApplication
 import com.loyaltiez.core.domain.model.todo.ToDo
-import com.loyaltiez.core.domain.repository.IToDoDAO
 import com.loyaltiez.feature_home.di.HomeActivityContainer
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -77,14 +75,14 @@ class HomeViewModel(private val mApplication: Application) :
 
         viewModelScope.launch {
 
-            getToDosForUserEmailUseCase( (mApplication as TindoApplication).loggedInUser!!.email ).collect {
+            getToDosForUserEmailUseCase((mApplication as TindoApplication).loggedInUser!!.email).collect {
 
                 mToDos.value = it
             }
         }
     }
 
-    private fun deleteToDo(todo : ToDo) {
+    private fun deleteToDo(todo: ToDo) {
 
         viewModelScope.launch {
 

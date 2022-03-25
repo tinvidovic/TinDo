@@ -31,8 +31,21 @@ open class ToDo(
     override fun equals(other: Any?): Boolean {
         return super.equals(other)
     }
+
     fun getTimeString(): String = convertTimeToString(time)
 
     fun getDateString(): String = convertDateToString(date)
+
+    override fun hashCode(): Int {
+        var result = userEmail.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + color
+        result = 31 * result + time.hashCode()
+        result = 31 * result + (date?.hashCode() ?: 0)
+        result = 31 * result + (id ?: 0)
+        result = 31 * result + favourite.hashCode()
+        return result
+    }
 
 }

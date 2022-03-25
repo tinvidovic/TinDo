@@ -1,6 +1,6 @@
 package com.loyaltiez.feature_home
 
-import android.app.AlarmManager
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -35,7 +35,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var headerBinding: HeaderNavigationDrawerBinding
 
     private val mLoggedInUser: MutableLiveData<User> = MutableLiveData()
-    val loggedInUser : LiveData<User>
+    val loggedInUser: LiveData<User>
         get() = mLoggedInUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +111,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             drawerLayout.close()
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
 
             // Destination can not be found from other fragments, when clicking rapidly on the drawer layout
         }
@@ -140,7 +140,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         finish()
     }
 
-    private fun cancelAllAlarms(){
+    @SuppressLint("UnspecifiedImmutableFlag")
+    private fun cancelAllAlarms() {
 
         val alarmService = AlarmService(applicationContext)
 
@@ -148,7 +149,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val alarmIds = alarmService.getAlarmIds()
 
-        for (alarmId in alarmIds){
+        for (alarmId in alarmIds) {
 
             val pendingIntent = PendingIntent.getBroadcast(
                 applicationContext,

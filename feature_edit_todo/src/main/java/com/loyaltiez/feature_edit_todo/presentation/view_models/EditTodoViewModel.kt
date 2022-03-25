@@ -3,16 +3,12 @@ package com.loyaltiez.feature_edit_todo.presentation.view_models
 import android.app.Application
 import androidx.lifecycle.*
 import com.loyaltiez.core.TindoApplication
-import com.loyaltiez.core.domain.model.todo.DailyToDo
-import com.loyaltiez.core.domain.model.todo.ToDo
-import com.loyaltiez.core.domain.model.todo.WeeklyToDo
-import com.loyaltiez.core.domain.repository.IToDoDAO
-import com.loyaltiez.core.domain.model.todo.TodoType
-import com.loyaltiez.core.domain.model.todo.getToDoColorFromColorValue
+import com.loyaltiez.core.domain.model.todo.*
 import com.loyaltiez.create_edit_todo_core.presentation.view_models.CreateEditTodoViewModel
 import kotlinx.coroutines.launch
 
-class EditTodoViewModel(val mApplication: Application, private val mTodo: ToDo) : CreateEditTodoViewModel(mApplication) {
+class EditTodoViewModel(val mApplication: Application, private val mTodo: ToDo) :
+    CreateEditTodoViewModel(mApplication) {
 
     // NEW TINDO:
     private val mNewTodo = MutableLiveData<ToDo?>(null)
@@ -27,7 +23,7 @@ class EditTodoViewModel(val mApplication: Application, private val mTodo: ToDo) 
 
         onRemindMeAtTextChanged(mTodo.time)
 
-        if (mTodo is WeeklyToDo){
+        if (mTodo is WeeklyToDo) {
 
             onTodoTypeChanged(TodoType.WEEKLY)
             onStartingOnTextChanged(mTodo.date)
@@ -59,7 +55,7 @@ class EditTodoViewModel(val mApplication: Application, private val mTodo: ToDo) 
         }
     }
 
-    private fun createTodo(toDo: ToDo){
+    private fun createTodo(toDo: ToDo) {
 
         viewModelScope.launch {
 
@@ -71,19 +67,32 @@ class EditTodoViewModel(val mApplication: Application, private val mTodo: ToDo) 
     // CLICK HANDLERS:
     fun onSaveClicked() {
 
-        if (isInputValid()){
+        if (isInputValid()) {
 
-            if (mTodoType.value == TodoType.DAILY){
+            if (mTodoType.value == TodoType.DAILY) {
 
                 // If it is a daily tindo, create it and store it in the room database
-                val dailyToDo = DailyToDo( (mApplication as TindoApplication).loggedInUser!!.email, titleInputState.formattedValue.value!!,
-                    descriptionInputState.formattedValue.value!!, mTodoColor.value!!.color, remindMeAtState.input.value!!, mTodo.id )
+                val dailyToDo = DailyToDo(
+                    (mApplication as TindoApplication).loggedInUser!!.email,
+                    titleInputState.formattedValue.value!!,
+                    descriptionInputState.formattedValue.value!!,
+                    mTodoColor.value!!.color,
+                    remindMeAtState.input.value!!,
+                    mTodo.id
+                )
                 mNewTodo.value = dailyToDo
                 createTodo(dailyToDo)
-            } else if (mTodoType.value == TodoType.WEEKLY){
+            } else if (mTodoType.value == TodoType.WEEKLY) {
                 // If it is a weekly tindo, create it and store it in the room database
-                val weeklyToDo = WeeklyToDo( (mApplication as TindoApplication).loggedInUser!!.email, titleInputState.formattedValue.value!!,
-                    descriptionInputState.formattedValue.value!!, mTodoColor.value!!.color, remindMeAtState.input.value!!, startingOnState.input.value!!, mTodo.id )
+                val weeklyToDo = WeeklyToDo(
+                    (mApplication as TindoApplication).loggedInUser!!.email,
+                    titleInputState.formattedValue.value!!,
+                    descriptionInputState.formattedValue.value!!,
+                    mTodoColor.value!!.color,
+                    remindMeAtState.input.value!!,
+                    startingOnState.input.value!!,
+                    mTodo.id
+                )
                 mNewTodo.value = weeklyToDo
                 createTodo(weeklyToDo)
             }

@@ -20,7 +20,7 @@ The common Fragment from which the Create and Edit Fragment inherit
  */
 abstract class CreateEditTodoFragment : TinDoFragment() {
 
-    abstract val viewModel :CreateEditTodoViewModel
+    abstract val viewModel: CreateEditTodoViewModel
 
     protected open fun setObservers(binding: CreateEditTodoLayoutBinding) {
 

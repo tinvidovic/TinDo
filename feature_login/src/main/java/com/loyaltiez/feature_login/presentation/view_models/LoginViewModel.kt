@@ -1,7 +1,6 @@
 package com.loyaltiez.feature_login.presentation.view_models
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
 import com.loyaltiez.core.TindoApplication
 import com.loyaltiez.core.domain.model.reqres.LoginResponse
@@ -64,12 +63,12 @@ class LoginViewModel(val mApplication: Application) :
     }
 
     // INPUT HANDLERS:
-    fun onEmailAddressTextChanged(input: String){
+    fun onEmailAddressTextChanged(input: String) {
 
         emailAddressInputState.set(input)
     }
 
-    fun onPasswordTextChanged(input: String){
+    fun onPasswordTextChanged(input: String) {
 
         passwordInputState.set(input)
     }
@@ -85,7 +84,7 @@ class LoginViewModel(val mApplication: Application) :
         return emailAddressInputState.isValid() && passwordInputState.isValid()
     }
 
-    private fun logIn(email: String, password: String){
+    private fun logIn(email: String, password: String) {
 
         viewModelScope.launch {
 
@@ -99,7 +98,8 @@ class LoginViewModel(val mApplication: Application) :
     fun onLoginSuccess() {
 
         // For now the logged in user is just injected to the AppContainer (in a production app this would have to be handled differently
-        (mApplication as TindoApplication).loggedInUser = User(emailAddressInputState.formattedValue.value!!)
+        (mApplication as TindoApplication).loggedInUser =
+            User(emailAddressInputState.formattedValue.value!!)
 
         // Navigate to the home screen
         mNavigateToHome.value = true
@@ -117,8 +117,11 @@ class LoginViewModel(val mApplication: Application) :
     // CLICK HANDLERS:
     fun onSignInClicked() {
 
-        if (isInputValid()){
-            logIn(emailAddressInputState.formattedValue.value!!, passwordInputState.formattedValue.value!!)
+        if (isInputValid()) {
+            logIn(
+                emailAddressInputState.formattedValue.value!!,
+                passwordInputState.formattedValue.value!!
+            )
         } else {
 
             setInputStateErrors()

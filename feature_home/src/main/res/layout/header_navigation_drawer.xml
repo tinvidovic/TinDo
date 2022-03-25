@@ -30,8 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.TinDo.Body2"
             android:text="@{viewModel.loggedInUser.email}"
+            android:textAppearance="@style/TextAppearance.TinDo.Body2"
             app:layout_constraintEnd_toEndOf="@+id/textViewLoggedInAs"
             app:layout_constraintStart_toStartOf="@+id/textViewLoggedInAs"
             app:layout_constraintTop_toBottomOf="@+id/textViewLoggedInAs" />

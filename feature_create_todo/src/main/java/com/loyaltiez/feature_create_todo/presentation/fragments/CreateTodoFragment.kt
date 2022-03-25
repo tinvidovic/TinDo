@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.loyaltiez.core.data.data_source.TindoRoomDatabase
-import com.loyaltiez.core.data.repository.ToDoDAO
 import com.loyaltiez.create_edit_todo_core.databinding.CreateEditTodoLayoutBinding
 import com.loyaltiez.create_edit_todo_core.presentation.fragments.CreateEditTodoFragment
 import com.loyaltiez.feature_create_todo.R

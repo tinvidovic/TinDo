@@ -1,16 +1,17 @@
 package com.loyaltiez.core.domain.model.todo
 
 import com.loyaltiez.core.R
-import org.junit.Assert.*
-
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.sql.Date
 import java.sql.Time
 
+@Suppress("DEPRECATION")
 class WeeklyToDoTest {
 
     private lateinit var weeklyToDo: WeeklyToDo
+
     @Before
     fun setUp() {
 
@@ -25,19 +26,19 @@ class WeeklyToDoTest {
     }
 
     @Test
-    fun testToDoType(){
+    fun testToDoType() {
 
         assertEquals(WeeklyToDo.getTypeString(), "weekly")
     }
 
     @Test
-    fun testGetTimeString(){
+    fun testGetTimeString() {
 
         assertEquals(weeklyToDo.getTimeString(), "17:34")
     }
 
     @Test
-    fun testGetDateString(){
+    fun testGetDateString() {
         assertEquals(weeklyToDo.getDateString(), "20/01/2022")
     }
 }

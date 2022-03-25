@@ -86,7 +86,10 @@ class SplashscreenFragment : Fragment() {
         lifecycleScope.launchWhenResumed {
             val navController = findNavController()
 
-            val sharedPreferences = activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+            val sharedPreferences = activity?.getSharedPreferences(
+                getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE
+            )
 
             // Get the logged in user's email address or null
             val loggedInAs = sharedPreferences?.getString(
@@ -94,7 +97,7 @@ class SplashscreenFragment : Fragment() {
                 null
             )
 
-            if (loggedInAs != null){
+            if (loggedInAs != null) {
                 // For now the logged in user is just injected to the AppContainer (in a production app this would have to be handled differently
                 (requireActivity().application as TindoApplication).loggedInUser = User(loggedInAs)
 
