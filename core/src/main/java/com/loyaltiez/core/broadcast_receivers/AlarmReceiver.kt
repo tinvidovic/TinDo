@@ -12,6 +12,8 @@ import com.loyaltiez.core.helper.converters.convertStringToTime
 import com.loyaltiez.core.services.AlarmService
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -36,21 +38,35 @@ class AlarmReceiver : BroadcastReceiver() {
         id: Int
     ) {
 
-        // Build the notification
-        val builder = context.let {
-            NotificationCompat.Builder(it, "ID1")
-                .setSmallIcon(R.drawable.baseline_alarm_24)
-                .setContentTitle(title)
-                .setContentText(description)
-                .setStyle(
-                    NotificationCompat.BigTextStyle()
-                        .bigText(description)
-                )
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val currentTime = System.currentTimeMillis()
+
+        val calendar : Calendar = Calendar.getInstance().apply {
+            timeInMillis = currentTime
+            set(Calendar.HOUR_OF_DAY, convertStringToTime(time).hours)
+            set(Calendar.MINUTE, convertStringToTime(time).minutes)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
         }
 
-        // Show the notification
-        context.let { NotificationManagerCompat.from(it) }.notify(id, builder.build())
+        // TODO: add some epsilon
+        if (calendar.timeInMillis > currentTime- 9999){
+
+            // Build the notification
+            val builder = context.let {
+                NotificationCompat.Builder(it, "ID1")
+                    .setSmallIcon(R.drawable.baseline_alarm_24)
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .setStyle(
+                        NotificationCompat.BigTextStyle()
+                            .bigText(description)
+                    )
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+            }
+
+            // Show the notification
+            context.let { NotificationManagerCompat.from(it) }.notify(id, builder.build())
+        }
     }
 
     private fun setNextAlarm(

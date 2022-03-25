@@ -42,5 +42,7 @@
     <string name="channel_name">notification_channel</string>
     <string name="sp_logged_in_as_key">\"LOGGED_IN_AS\"</string>
     <string name="preference_file_key">\"PREFERENCE_FILE_KEY\"</string>
+    <string name="tv_logged_in_as">Logged in as:</string>
+    <string name="menu_item_log_out">Log Out</string>
 
 </resources>
