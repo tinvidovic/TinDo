@@ -18,8 +18,8 @@
     <dimen name="recyclerView_to_screen_horizontal_margin">16dp</dimen>
     <dimen name="recyclerView_to_textView_top_margin">8dp</dimen>
 
-    <dimen name="fab_to_screen_horizontal_margin">16dp</dimen>
-    <dimen name="fab_to_screen_bottom_margin">16dp</dimen>
+    <dimen name="fab_to_screen_horizontal_margin">4dp</dimen>
+    <dimen name="fab_to_screen_bottom_margin">4dp</dimen>
 
     <dimen name="radioGroup_screen_horizontal_margin">8dp</dimen>
     <dimen name="radioGroup_textView_top_margin">16dp</dimen>

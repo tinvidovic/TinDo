@@ -24,10 +24,13 @@ open class ToDo(
     open val time: Time,
     open var date: Date?,
     @PrimaryKey(autoGenerate = true)
-    open var id: Int? = null
-
+    open var id: Int? = null,
+    open var favourite: Boolean = false
 ) : Parcelable {
 
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other)
+    }
     fun getTimeString(): String = convertTimeToString(time)
 
     fun getDateString(): String = convertDateToString(date)

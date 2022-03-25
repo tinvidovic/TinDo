@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/recyclerView_to_textView_top_margin"
             android:layout_marginEnd="@dimen/recyclerView_to_screen_horizontal_margin"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/fabCreateTodo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

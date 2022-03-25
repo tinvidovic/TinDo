@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.loyaltiez.core.data.roomdb_converters.RoomConverters
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.repository.IToDoDAO
@@ -12,7 +14,7 @@ import com.loyaltiez.core.domain.repository.IToDoDAO
 // Abstract class which when invoked provides a singleton instance of the RoomDatabase (thread safe)
 @Database(
     entities = [ToDo::class],
-    version = 2
+    version = 3
 )
 @TypeConverters(RoomConverters::class)
 abstract class TindoRoomDatabase : RoomDatabase() {
@@ -35,6 +37,14 @@ abstract class TindoRoomDatabase : RoomDatabase() {
                 context.applicationContext,
                 TindoRoomDatabase::class.java,
                 "tindo_db.db"
-            ).fallbackToDestructiveMigration().build()
+            )
+                .addMigrations(MIGRATION_2_3)
+                .build()
+    }
+}
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE to_dos ADD COLUMN favourite INTEGER DEFAULT 0 NOT NULL")
     }
 }

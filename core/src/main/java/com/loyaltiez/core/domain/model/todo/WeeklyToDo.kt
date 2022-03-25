@@ -15,8 +15,9 @@ class WeeklyToDo(
     override val color: Int,
     override val time: Time,
     override var date: Date?,
-    override var id: Int? = null
-) : ToDo(userEmail, title, description, color, time, date, id), Parcelable {
+    override var id: Int? = null,
+    override var favourite: Boolean = false
+) : ToDo(userEmail, title, description, color, time, date, id, favourite), Parcelable {
     override fun equals(other: Any?): Boolean {
         return super.equals(other)
     }

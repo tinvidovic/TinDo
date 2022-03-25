@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.model.todo.WeeklyToDo
+import com.loyaltiez.feature_home.R
 import com.loyaltiez.feature_home.databinding.TindoItemBinding
 
 class TindoItemAdapter(
@@ -71,6 +72,15 @@ class TindoItemAdapter(
             } else {
 
                 binding.chipTodoType.text = "Daily"
+            }
+
+            var favColor: Int? = null
+
+            if (item.favourite){
+
+                binding.iconFav.setColorFilter(R.color.favouriteColor,android.graphics.PorterDuff.Mode.MULTIPLY);
+            } else {
+                binding.iconFav.setColorFilter(R.color.primaryColor,android.graphics.PorterDuff.Mode.MULTIPLY);
             }
 
             binding.cardView.setCardBackgroundColor(application.getColor(item.color))
