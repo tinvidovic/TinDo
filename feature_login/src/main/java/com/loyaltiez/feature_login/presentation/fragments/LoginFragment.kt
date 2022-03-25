@@ -79,13 +79,13 @@ class LoginFragment : TinDoFragment() {
 
                     saveUser()
 
-                    viewModel.onLoginSuccess(it)
+                    viewModel.onLoginSuccess()
 
                 }
                 is NetworkResource.Error -> {
                     binding.progressBar.hide()
 
-                    viewModel.onLoginError(it)
+                    viewModel.onLoginError()
 
                     setUIEnableability(true)
                 }

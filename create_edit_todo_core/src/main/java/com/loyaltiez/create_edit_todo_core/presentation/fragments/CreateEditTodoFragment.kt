@@ -73,6 +73,7 @@ abstract class CreateEditTodoFragment : TinDoFragment() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun setPickerObservers() {
 
         viewModel.showTimePicker.observe(

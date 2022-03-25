@@ -42,9 +42,9 @@ class LoginUseCase(private val reqResAPI: IReqResAPI) {
         }
 
         response.body()?.let {
-            return NetworkResource.Error(response.message(), response.code(), it)
+            return NetworkResource.Error(response.message(), it)
         }
 
-        return NetworkResource.Error(response.message(), response.code())
+        return NetworkResource.Error(response.message())
     }
 }

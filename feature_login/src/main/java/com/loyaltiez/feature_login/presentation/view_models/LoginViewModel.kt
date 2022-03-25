@@ -96,7 +96,7 @@ class LoginViewModel(val mApplication: Application) :
         }
     }
 
-    fun onLoginSuccess(networkResource: NetworkResource.Success<LoginResponse>) {
+    fun onLoginSuccess() {
 
         // For now the logged in user is just injected to the AppContainer (in a production app this would have to be handled differently
         (mApplication as TindoApplication).loggedInUser = User(emailAddressInputState.formattedValue.value!!)
@@ -105,7 +105,7 @@ class LoginViewModel(val mApplication: Application) :
         mNavigateToHome.value = true
     }
 
-    fun onLoginError(networkResource: NetworkResource.Error<LoginResponse>) {
+    fun onLoginError() {
 
         // ReqRes api has two erroneous responses (both with code 400)
         // 1. Missing password (which can never happen on our client side)
