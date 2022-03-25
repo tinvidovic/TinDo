@@ -9,6 +9,9 @@ import kotlinx.parcelize.Parcelize
 import java.sql.Date
 import java.sql.Time
 
+// Class representing a  To Do
+//@extends Parcelable to be able to pass it via safeargs and jetpack navigation
+// Defined as a room entity, stored in the table "to_dos"
 @Entity(
     tableName = "to_dos"
 )
@@ -22,19 +25,8 @@ open class ToDo(
     open var date: Date?,
     @PrimaryKey(autoGenerate = true)
     open var id: Int? = null
-): Parcelable {
 
-    override fun equals(other: Any?): Boolean {
-        return super.equals(other)
-    }
-
-    override fun hashCode(): Int {
-        return super.hashCode()
-    }
-
-    override fun toString(): String {
-        return super.toString()
-    }
+) : Parcelable {
 
     fun getTimeString(): String = convertTimeToString(time)
 

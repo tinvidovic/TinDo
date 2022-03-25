@@ -1,4 +1,4 @@
-package com.loyaltiez.create_edit_todo_core.domain
+package com.loyaltiez.core.domain.model.todo
 
 enum class TodoType() {
 

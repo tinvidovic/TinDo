@@ -9,8 +9,5 @@ class LoginActivityContainer(
     reqResAPI: IReqResAPI
 )  : AppContainer() {
 
-    // The reqres.in API concrete implementation
-    private val reqResAPI = ReqResAPI()
-
     val loginUseCase = LoginUseCase(reqResAPI)
 }

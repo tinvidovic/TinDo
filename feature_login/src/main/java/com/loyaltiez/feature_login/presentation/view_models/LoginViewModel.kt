@@ -36,11 +36,6 @@ class LoginViewModel(val mApplication: Application) :
     private val loginUseCase =
         ((mApplication as TindoApplication).appContainer as LoginActivityContainer).loginUseCase
 
-    // UTILITY:
-    private val mSaveUser = MutableLiveData(false)
-    val saveUser: LiveData<Boolean>
-        get() = mSaveUser
-
     class Factory(application: Application) : ViewModelProvider.Factory {
 
         // Get the application
@@ -88,12 +83,6 @@ class LoginViewModel(val mApplication: Application) :
     private fun isInputValid(): Boolean {
 
         return emailAddressInputState.isValid() && passwordInputState.isValid()
-    }
-
-    // UTILITY:
-    fun onSaveUserComplete() {
-
-        mSaveUser.value = false
     }
 
     private fun logIn(email: String, password: String){

@@ -1,11 +1,11 @@
 package com.loyaltiez.core.domain.model.todo
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import java.sql.Time
 
+// Class representing a Daily To Do
+//@extends Parcelable to be able to pass it via safeargs and jetpack navigation
 @Parcelize
 class DailyToDo(
     override val userEmail: String,
@@ -26,5 +26,14 @@ class DailyToDo(
 
     override fun toString(): String {
         return super.toString()
+    }
+
+    companion object {
+
+        // So it can be called without an instance of the class
+        fun getTypeString(): String {
+
+            return "daily"
+        }
     }
 }

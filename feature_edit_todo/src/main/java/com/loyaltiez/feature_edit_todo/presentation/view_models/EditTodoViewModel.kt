@@ -7,12 +7,12 @@ import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.model.todo.WeeklyToDo
 import com.loyaltiez.core.domain.repository.IToDoDAO
-import com.loyaltiez.create_edit_todo_core.domain.TodoType
-import com.loyaltiez.create_edit_todo_core.domain.getToDoColorFromColorValue
+import com.loyaltiez.core.domain.model.todo.TodoType
+import com.loyaltiez.core.domain.model.todo.getToDoColorFromColorValue
 import com.loyaltiez.create_edit_todo_core.presentation.view_models.CreateEditTodoViewModel
 import kotlinx.coroutines.launch
 
-class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDoDAO: IToDoDAO) : CreateEditTodoViewModel(mApplication) {
+class EditTodoViewModel(val mApplication: Application, private val mTodo: ToDo) : CreateEditTodoViewModel(mApplication) {
 
     // NEW TINDO:
     private val mNewTodo = MutableLiveData<ToDo?>(null)
@@ -37,12 +37,11 @@ class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDo
         }
     }
 
-    class Factory(application: Application, todo: ToDo, toDoDAO: IToDoDAO) : ViewModelProvider.Factory {
+    class Factory(application: Application, todo: ToDo) : ViewModelProvider.Factory {
 
         // Get the application and the todoObject
         private val mApplication = application
         private val mTodo = todo
-        private val mToDoDAO = toDoDAO
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
@@ -50,7 +49,7 @@ class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDo
 
                 // We have already checked the casting compatibility
                 @Suppress("UNCHECKED_CAST")
-                return EditTodoViewModel(mApplication, mTodo, mToDoDAO) as T
+                return EditTodoViewModel(mApplication, mTodo) as T
 
             } else {
 
@@ -64,7 +63,7 @@ class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDo
 
         viewModelScope.launch {
 
-            toDoDAO.insertToDo(toDo)
+            insertToDoUseCase.invoke(toDo)
             mNavigateToHome.value = true
         }
     }
@@ -76,18 +75,18 @@ class EditTodoViewModel(val mApplication: Application, val mTodo: ToDo, val toDo
 
             if (mTodoType.value == TodoType.DAILY){
 
+                // If it is a daily tindo, create it and store it in the room database
                 val dailyToDo = DailyToDo( (mApplication as TindoApplication).loggedInUser!!.email, titleInputState.formattedValue.value!!,
                     descriptionInputState.formattedValue.value!!, mTodoColor.value!!.color, remindMeAtState.input.value!!, mTodo.id )
                 mNewTodo.value = dailyToDo
                 createTodo(dailyToDo)
             } else if (mTodoType.value == TodoType.WEEKLY){
+                // If it is a weekly tindo, create it and store it in the room database
                 val weeklyToDo = WeeklyToDo( (mApplication as TindoApplication).loggedInUser!!.email, titleInputState.formattedValue.value!!,
                     descriptionInputState.formattedValue.value!!, mTodoColor.value!!.color, remindMeAtState.input.value!!, startingOnState.input.value!!, mTodo.id )
                 mNewTodo.value = weeklyToDo
                 createTodo(weeklyToDo)
             }
-
-            mNavigateToHome.value = true
         } else {
 
             setInputStateErrors()

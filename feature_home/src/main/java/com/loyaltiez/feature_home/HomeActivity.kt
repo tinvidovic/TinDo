@@ -1,6 +1,9 @@
 package com.loyaltiez.feature_home
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +19,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.loyaltiez.core.TindoApplication
+import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
 import com.loyaltiez.core.domain.model.user.User
+import com.loyaltiez.core.services.AlarmService
 import com.loyaltiez.feature_home.databinding.ActivityHomeBinding
 import com.loyaltiez.feature_home.databinding.HeaderNavigationDrawerBinding
+import com.loyaltiez.feature_home.di.HomeActivityContainer
 import com.loyaltiez.feature_home.presentation.fragments.HomeFragmentDirections
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +40,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Home flow has started. Populate HomeActivityContainer
+        (application as TindoApplication).appContainer =
+            HomeActivityContainer(
+                (application as TindoApplication).toDoDAO,
+            )
 
         mLoggedInUser.value = (application as TindoApplication).loggedInUser
 
@@ -57,6 +69,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.navigationView.setNavigationItemSelectedListener(this)
 
+    }
+
+    override fun onPause() {
+
+        // Home flow is finishing
+        // Set HomeActivityContainer to null
+        (application as TindoApplication).appContainer =
+            null
+
+        super.onPause()
+    }
+
+    override fun onResume() {
+
+        // Home flow is resuming
+        // Populate HomeActivityContainer
+        (application as TindoApplication).appContainer =
+            HomeActivityContainer(
+                (application as TindoApplication).toDoDAO,
+            )
+
+        super.onResume()
     }
 
     /* Handle the drawer layout menu clicks
@@ -97,12 +131,35 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 null
             )
             apply()
-            commit()
         }
+
+        cancelAllAlarms()
 
         // Finish and remove affinity of MyBusinesses Activity
         finishAffinity()
         finish()
+    }
+
+    private fun cancelAllAlarms(){
+
+        val alarmService = AlarmService(applicationContext)
+
+        val intent = Intent(this, AlarmReceiver::class.java)
+
+        val alarmIds = alarmService.getAlarmIds()
+
+        for (alarmId in alarmIds){
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                alarmId,
+                intent,
+                PendingIntent.FLAG_NO_CREATE
+            )
+
+            alarmService.removeAlarm(pendingIntent, alarmId)
+        }
+
     }
 
     private fun setUpHeaderNavigationBinding() {

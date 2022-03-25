@@ -39,10 +39,19 @@
     <string name="description_too_long_error">Description too long</string>
     <string name="remind_me_at_error">Select a time</string>
     <string name="starting_on_error">Select a date</string>
-    <string name="channel_name">notification_channel</string>
+
+    <!-- Notifications -->
+    <string name="channel_name">Tindo Notifications</string>
+    <string name="notification_channel_id">ID1</string>
+
+    <!-- SharedPreferences -->
     <string name="sp_logged_in_as_key">\"LOGGED_IN_AS\"</string>
     <string name="preference_file_key">\"PREFERENCE_FILE_KEY\"</string>
+    <string name="alarm_ids_file_key">ALARM_IDS</string>
+
+    <!-- Drawer View -->
     <string name="tv_logged_in_as">Logged in as:</string>
     <string name="menu_item_log_out">Log Out</string>
+
 
 </resources>

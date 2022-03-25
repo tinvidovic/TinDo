@@ -1,14 +1,23 @@
 package com.loyaltiez.create_edit_todo_core.presentation.view_models
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.loyaltiez.core.domain.model.todo.ToDo
-import com.loyaltiez.core.presentation.view_models.input_states.*
-import com.loyaltiez.create_edit_todo_core.domain.ToDoColor
-import com.loyaltiez.create_edit_todo_core.domain.TodoType
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.loyaltiez.core.TindoApplication
+import com.loyaltiez.core.domain.model.todo.ToDoColor
+import com.loyaltiez.core.domain.model.todo.TodoType
+import com.loyaltiez.core.presentation.view_models.input_states.DescriptionInputState
+import com.loyaltiez.core.presentation.view_models.input_states.RemindMeAtState
+import com.loyaltiez.core.presentation.view_models.input_states.StartingOnState
+import com.loyaltiez.core.presentation.view_models.input_states.TitleInputState
+import com.loyaltiez.create_edit_todo_core.di.CreateEditToDoActivityContainer
 import java.sql.Date
 import java.sql.Time
 
+/*
+The common ViewModel from which the Create and Edit TodoViewModels inherit
+ */
 open class CreateEditTodoViewModel(mApplication: Application) :
     AndroidViewModel(mApplication) {
 
@@ -22,18 +31,22 @@ open class CreateEditTodoViewModel(mApplication: Application) :
     val descriptionInputState = DescriptionInputState("")
 
     // TINDO TYPE:
-    protected val mTodoType = MutableLiveData<TodoType>(TodoType.DAILY)
+    protected val mTodoType = MutableLiveData(TodoType.DAILY)
     val todoType: LiveData<TodoType>
         get() = mTodoType
 
     // TINDO COLOR:
-    protected val mTodoColor = MutableLiveData<ToDoColor>(ToDoColor.RED)
+    protected val mTodoColor = MutableLiveData(ToDoColor.RED)
     val todoColor: LiveData<ToDoColor>
         get() = mTodoColor
 
     // TIME:
     val remindMeAtState = RemindMeAtState(null, mApplication.applicationContext)
     val startingOnState = StartingOnState(null, mApplication.applicationContext)
+
+    // USE CASES:
+    protected val insertToDoUseCase =
+        ((mApplication as TindoApplication).appContainer as CreateEditToDoActivityContainer).insertToDoUseCase
 
     // UTILITY:
     private val mShowTimePicker = MutableLiveData(false)
@@ -44,27 +57,6 @@ open class CreateEditTodoViewModel(mApplication: Application) :
     val showDatePicker: LiveData<Boolean>
         get() = mShowDatePicker
 
-    class Factory(application: Application) : ViewModelProvider.Factory {
-
-        // Get the application
-        private val mApplication = application
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
-            if (modelClass.isAssignableFrom(CreateEditTodoViewModel::class.java)) {
-
-                // We have already checked the casting compatibility
-                @Suppress("UNCHECKED_CAST")
-                return CreateEditTodoViewModel(mApplication) as T
-
-            } else {
-
-                throw IllegalArgumentException("Unable to construct CreateEditTodoViewModel")
-
-            }
-        }
-    }
-
     // NAVIGATION:
     fun onNavigateToHomeComplete() {
 
@@ -72,22 +64,22 @@ open class CreateEditTodoViewModel(mApplication: Application) :
     }
 
     // INPUT HANDLERS:
-    fun onTitleTextChanged(input: String){
+    fun onTitleTextChanged(input: String) {
 
         titleInputState.set(input)
     }
 
-    fun onDescriptionTextChanged(input: String){
+    fun onDescriptionTextChanged(input: String) {
 
         descriptionInputState.set(input)
     }
 
-    fun onRemindMeAtTextChanged(input : Time?){
+    fun onRemindMeAtTextChanged(input: Time?) {
 
         remindMeAtState.set(input)
     }
 
-    fun onStartingOnTextChanged(input : Date?){
+    fun onStartingOnTextChanged(input: Date?) {
 
         startingOnState.set(input)
     }
@@ -98,23 +90,25 @@ open class CreateEditTodoViewModel(mApplication: Application) :
         descriptionInputState.setErrors()
         remindMeAtState.setErrors()
 
-        if (mTodoType.value == TodoType.WEEKLY){
+        if (mTodoType.value == TodoType.WEEKLY) {
             startingOnState.setErrors()
         }
     }
 
     protected fun isInputValid(): Boolean {
 
-        return titleInputState.isValid() && descriptionInputState.isValid() && remindMeAtState.isValid() && (startingOnState.isValid() || mTodoType.value == TodoType.DAILY)
+        return titleInputState.isValid() && descriptionInputState.isValid() && remindMeAtState.isValid()
+                && (startingOnState.isValid() || mTodoType.value == TodoType.DAILY)
     }
 
+
     // UTILITY:
-    fun onShowTimePickerComplete(){
+    fun onShowTimePickerComplete() {
 
         mShowTimePicker.value = false
     }
 
-    fun onShowDatePickerComplete(){
+    fun onShowDatePickerComplete() {
 
         mShowDatePicker.value = false
     }

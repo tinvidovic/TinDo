@@ -88,6 +88,7 @@ class SplashscreenFragment : Fragment() {
 
             val sharedPreferences = activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 
+            // Get the logged in user's email address or null
             val loggedInAs = sharedPreferences?.getString(
                 getString(R.string.sp_logged_in_as_key),
                 null
@@ -106,12 +107,9 @@ class SplashscreenFragment : Fragment() {
                 )
             }
 
-
-
             // Finish the activity, and remove from back stack
             requireActivity().finishAffinity()
             requireActivity().finish()
-
         }
     }
 

@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// A class with a companion object providing an instance of Retrofit using google's GsonConverter
 class RetrofitInstance {
     companion object {
 
@@ -26,7 +27,7 @@ class RetrofitInstance {
                 .build()
         }
 
-        val api by lazy {
+        val api: IReqResAPI by lazy {
             retrofit.create(IReqResAPI::class.java)
         }
     }

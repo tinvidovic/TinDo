@@ -3,13 +3,14 @@ package com.loyaltiez.feature_home.presentation.view_models
 import android.app.Application
 import androidx.lifecycle.*
 import com.loyaltiez.core.TindoApplication
-import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.repository.IToDoDAO
+import com.loyaltiez.feature_home.di.HomeActivityContainer
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HomeViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) :
+class HomeViewModel(private val mApplication: Application) :
     AndroidViewModel(mApplication) {
 
     // NAVIGATION:
@@ -22,21 +23,27 @@ class HomeViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) :
         get() = mNavigateToEditToDo
 
     // TO DO LIST:
-    private val mToDos = MutableLiveData<MutableList<ToDo>>(mutableListOf())
-    val toDos: LiveData<MutableList<ToDo>>
+    private val mToDos = MutableLiveData<List<ToDo>>(mutableListOf())
+    val toDos: LiveData<List<ToDo>>
         get() = mToDos
+
+    // USE CASES:
+    private val getToDosForUserEmailUseCase =
+        ((mApplication as TindoApplication).appContainer as HomeActivityContainer).getToDosForUserEmailUseCase
+
+    private val deleteToDoUseCase =
+        ((mApplication as TindoApplication).appContainer as HomeActivityContainer).deleteToDoUseCase
 
     init {
 
-        getDailyToDos()
+        getToDos()
 
     }
 
-    class Factory(application: Application, toDoDAO: IToDoDAO) : ViewModelProvider.Factory {
+    class Factory(application: Application) : ViewModelProvider.Factory {
 
         // Get the application
         private val mApplication = application
-        private val mToDoDAO = toDoDAO
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
@@ -44,7 +51,7 @@ class HomeViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) :
 
                 // We have already checked the casting compatibility
                 @Suppress("UNCHECKED_CAST")
-                return HomeViewModel(mApplication, mToDoDAO) as T
+                return HomeViewModel(mApplication) as T
 
             } else {
 
@@ -66,13 +73,22 @@ class HomeViewModel(val mApplication: Application, val toDoDAO: IToDoDAO) :
     }
 
     // METHODS:
-    fun getDailyToDos() : Flow<List<ToDo>> = toDoDAO.getToDosForUserEmail( (mApplication as TindoApplication).loggedInUser!!.email )
-
-    fun deleteToDo(todo : ToDo) {
+    fun getToDos() {
 
         viewModelScope.launch {
 
-            toDoDAO.deleteToDo(todo)
+            getToDosForUserEmailUseCase( (mApplication as TindoApplication).loggedInUser!!.email ).collect {
+
+                mToDos.value = it
+            }
+        }
+    }
+
+    private fun deleteToDo(todo : ToDo) {
+
+        viewModelScope.launch {
+
+            deleteToDoUseCase(todo)
         }
     }
 

@@ -4,8 +4,14 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
 
+/*
+A ViewAnimator class concerned with UI animation
+Create an instance of this class, and call the associated methods, providing the views to animate
+to create UI animations
+ */
 class ViewAnimator {
 
+    // The constants used as default values for animation functions
     companion object Constants {
 
         private const val BREATHE_DEFAULT_INFLATION_DURATION = 1000L
@@ -26,6 +32,7 @@ class ViewAnimator {
         lowScaleY: Float = BREATHE_DEFAULT_LOW_SCALE_Y,
         highScaleY: Float = BREATHE_DEFAULT_HIGH_SCALE_Y
     ): AnimatorSet {
+
         val scaleXInflation = ObjectAnimator.ofFloat(view, "scaleX", highScaleX)
         val scaleYInflation = ObjectAnimator.ofFloat(view, "scaleY", highScaleY)
 
@@ -42,6 +49,7 @@ class ViewAnimator {
             play(scaleXDeflation).with(scaleYDeflation)
         }
 
+        // Apply the inflation animation followed by the deflation animation
         return AnimatorSet().apply {
             play(inflation).before(deflation)
         }

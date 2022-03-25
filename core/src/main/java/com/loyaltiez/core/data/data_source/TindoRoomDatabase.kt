@@ -9,6 +9,7 @@ import com.loyaltiez.core.data.roomdb_converters.RoomConverters
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.repository.IToDoDAO
 
+// Abstract class which when invoked provides a singleton instance of the RoomDatabase (thread safe)
 @Database(
     entities = [ToDo::class],
     version = 2
@@ -21,6 +22,8 @@ abstract class TindoRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var instance: TindoRoomDatabase? = null
+
+        // The lock used to provide thread safety
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {

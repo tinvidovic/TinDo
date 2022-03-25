@@ -8,6 +8,7 @@ import retrofit2.http.POST
 
 interface IReqResAPI {
 
+    // Makes a post request, attempting to log the user in with the provided LogInInformation
     @POST("/api/login")
-    suspend fun loginWithEmailAndPassword(@Body loginInformation: LoginInformation) : Response<LoginResponse>
+    suspend fun loginWithEmailAndPassword(@Body loginInformation: LoginInformation): Response<LoginResponse>
 }

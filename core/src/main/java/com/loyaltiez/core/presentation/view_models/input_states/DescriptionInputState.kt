@@ -1,11 +1,9 @@
 package com.loyaltiez.core.presentation.view_models.input_states
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.loyaltiez.core.R
 
-class DescriptionInputState(initialValue: String) {
+class DescriptionInputState(initialValue: String) : InputState<String>() {
 
     companion object Constants {
 
@@ -13,35 +11,21 @@ class DescriptionInputState(initialValue: String) {
         const val MAXIMUM_DESCRIPTION_LENGTH = 200
     }
 
-    private val mInput = MutableLiveData<String>()
-    val input: LiveData<String>
-        get() = mInput
-
-    private val mFormattedValue = MutableLiveData<String>()
-    val formattedValue: LiveData<String>
-        get() = mFormattedValue
-
-    private val mError = MutableLiveData<Int?>()
-    val error: LiveData<Int?>
-        get() = mError
-
     init {
 
-        mInput.value = initialValue
-
-        mFormattedValue.value = initialValue.trim()
+        set(initialValue)
     }
 
-    fun set(input: String?){
+    override fun set(input: String?) {
 
-        mInput.value = input?:""
+        mInput.value = input ?: ""
 
-        mFormattedValue.value = (mInput.value?:"").trim()
+        mFormattedValue.value = (mInput.value ?: "").trim()
 
-        clearError()
+        super.set(input)
     }
 
-    fun isValid(): Boolean {
+    override fun isValid(): Boolean {
 
         // Check if the input is of appropriate length
         return mFormattedValue.value?.let {
@@ -49,19 +33,19 @@ class DescriptionInputState(initialValue: String) {
         } == true
     }
 
-    fun setErrors() {
+    override fun setErrors() {
 
-        if (!isValid()){
+        if (!isValid()) {
 
-            if (mFormattedValue.value?.length ?: "".length < MINIMUM_DESCRIPTION_LENGTH){
+            if (mFormattedValue.value?.length ?: "".length < MINIMUM_DESCRIPTION_LENGTH) {
                 mError.value = R.plurals.description_too_short_error
-            }else {
+            } else {
                 mError.value = R.string.description_too_long_error
             }
         }
     }
 
-    fun getError(context: Context): String? {
+    override fun getError(context: Context): String? {
 
         return when (mError.value) {
             R.plurals.description_too_short_error -> {
@@ -82,10 +66,5 @@ class DescriptionInputState(initialValue: String) {
                 null
             }
         }
-    }
-
-    fun clearError() {
-
-        mError.value = null
     }
 }

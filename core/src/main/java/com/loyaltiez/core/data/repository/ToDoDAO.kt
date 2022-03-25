@@ -7,6 +7,7 @@ import com.loyaltiez.core.domain.model.todo.WeeklyToDo
 import com.loyaltiez.core.domain.repository.IToDoDAO
 import kotlinx.coroutines.flow.Flow
 
+// The class providing the implementation of the IToDoDAO interface
 class ToDoDAO(private val db: TindoRoomDatabase) : IToDoDAO {
 
     override suspend fun insertToDo(toDo: ToDo): Long {

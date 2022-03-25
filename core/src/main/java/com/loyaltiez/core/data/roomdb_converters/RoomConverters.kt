@@ -8,6 +8,8 @@ import com.loyaltiez.core.helper.converters.convertTimeToString
 import java.sql.Date
 import java.sql.Time
 
+// The converters used when storing Date and Time objects to the database
+// The functions convert Date and Time to strings and vice-versa
 class RoomConverters {
 
     @TypeConverter

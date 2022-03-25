@@ -128,13 +128,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iconDate"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_editor_absoluteX="4dp"
                         tools:text="28.05.2022." />
 
                     <ImageView
                         android:id="@+id/iconDelete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"

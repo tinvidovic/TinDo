@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
+import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -60,7 +61,6 @@ class LoginFragment : TinDoFragment() {
 
     private fun setObservers() {
 
-
         setNavigationObservers()
 
         setErrorObservers()
@@ -68,10 +68,11 @@ class LoginFragment : TinDoFragment() {
         viewModel.loginResponse.observe(
             viewLifecycleOwner
         ){
-
+            // Distinguish between the loading, success and error states and act accordingly
             when(it){
                 is NetworkResource.Loading -> {
                     binding.progressBar.show()
+                    setUIEnableability(false)
                 }
                 is NetworkResource.Success -> {
                     binding.progressBar.hide()
@@ -85,11 +86,25 @@ class LoginFragment : TinDoFragment() {
                     binding.progressBar.hide()
 
                     viewModel.onLoginError(it)
+
+                    setUIEnableability(true)
+                }
+                else -> {
+                    // Shouldn't happen, faily gracefuly
                 }
             }
         }
     }
 
+    private fun setUIEnableability(isEnabled: Boolean) {
+
+        for (view in binding.constraintLayout.children){
+
+            view.isEnabled = isEnabled
+        }
+    }
+
+    // Saves the current users e-mail address in the sharedPreferences
     private fun saveUser() {
 
         activity?.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)?.edit {
@@ -98,7 +113,6 @@ class LoginFragment : TinDoFragment() {
                 viewModel.emailAddressInputState.formattedValue.value!!
             )
             apply()
-            commit()
         }
     }
 
@@ -115,14 +129,17 @@ class LoginFragment : TinDoFragment() {
     private fun setErrorObservers() {
 
         observeTextInputError(
-            viewModel.emailAddressInputState.error,
-            binding.outlinedTextFieldEmailAddress,
-        ) { (viewModel.emailAddressInputState::getError)(requireContext()) }
-
-        observeTextInputError(
             viewModel.passwordInputState.error,
             binding.outlinedTextFieldPassword,
+            binding.scrollView
         ) { (viewModel.passwordInputState::getError)(requireContext()) }
+
+        observeTextInputError(
+            viewModel.emailAddressInputState.error,
+            binding.outlinedTextFieldEmailAddress,
+            binding.scrollView
+        ) { (viewModel.emailAddressInputState::getError)(requireContext()) }
+
     }
 
     private fun setListeners() {

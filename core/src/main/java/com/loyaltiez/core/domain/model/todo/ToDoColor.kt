@@ -1,6 +1,6 @@
-package com.loyaltiez.create_edit_todo_core.domain
+package com.loyaltiez.core.domain.model.todo
 
-import com.loyaltiez.create_edit_todo_core.R
+import com.loyaltiez.core.R
 
 enum class ToDoColor(val color: Int) {
 
@@ -14,9 +14,9 @@ enum class ToDoColor(val color: Int) {
     WHITE(R.color.tinDoWhite);
 }
 
-fun getToDoColorFromColorValue(colorValue: Int) : ToDoColor {
+fun getToDoColorFromColorValue(colorValue: Int): ToDoColor {
 
-    return when(colorValue){
+    return when (colorValue) {
 
         R.color.tinDoRed -> ToDoColor.RED
         R.color.tinDoYellow -> ToDoColor.YELLOW

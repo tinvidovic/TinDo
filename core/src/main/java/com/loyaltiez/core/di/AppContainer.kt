@@ -1,6 +1,5 @@
 package com.loyaltiez.core.di
 
-import com.loyaltiez.core.domain.model.user.User
-
-open class AppContainer() {
+// The app container, any injections that should live for as long as the app lives should be defined here
+open class AppContainer {
 }

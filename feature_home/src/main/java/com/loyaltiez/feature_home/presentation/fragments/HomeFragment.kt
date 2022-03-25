@@ -1,7 +1,6 @@
 package com.loyaltiez.feature_home.presentation.fragments
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -12,14 +11,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
-import com.loyaltiez.core.data.data_source.TindoRoomDatabase
-import com.loyaltiez.core.data.repository.ToDoDAO
 import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
 import com.loyaltiez.core.domain.model.todo.WeeklyToDo
@@ -31,8 +26,6 @@ import com.loyaltiez.feature_home.adapters.EditTindoItemClickListener
 import com.loyaltiez.feature_home.adapters.TindoItemAdapter
 import com.loyaltiez.feature_home.databinding.HomeFragmentBinding
 import com.loyaltiez.feature_home.presentation.view_models.HomeViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.util.*
 
 class HomeFragment : TinDoFragment() {
@@ -44,7 +37,6 @@ class HomeFragment : TinDoFragment() {
             this,
             HomeViewModel.Factory(
                 requireActivity().application,
-                ToDoDAO(TindoRoomDatabase.invoke(requireContext()))
             )
         )
             .get(HomeViewModel::class.java)
@@ -85,14 +77,14 @@ class HomeFragment : TinDoFragment() {
         return binding.root
     }
 
-    private lateinit var alarmManager: AlarmManager
+    private lateinit var alarmService: AlarmService
     private lateinit var pendingIntent: PendingIntent
 
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun clearAlarm(toDo: ToDo) {
 
-        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
+        alarmService = AlarmService(requireContext())
         val intent = Intent(requireActivity(), AlarmReceiver::class.java)
 
         pendingIntent = PendingIntent.getBroadcast(
@@ -102,14 +94,12 @@ class HomeFragment : TinDoFragment() {
             PendingIntent.FLAG_NO_CREATE
         )
 
-        alarmManager.cancel(pendingIntent)
-
+        alarmService.removeAlarm(pendingIntent, toDo.id!!)
     }
 
-    @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
+    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
     private fun setAlarm(toDo: ToDo, type: String) {
-
-        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val dateTimeInMillis = toDo.date?.time
 
@@ -123,8 +113,6 @@ class HomeFragment : TinDoFragment() {
             set(Calendar.MILLISECOND, 0)
         }
 
-        val time = calendar.time
-
         val alarmService = AlarmService(requireContext())
 
         val intent = Intent(requireActivity(), AlarmReceiver::class.java)
@@ -132,10 +120,11 @@ class HomeFragment : TinDoFragment() {
         intent.putExtra("title", toDo.title)
         intent.putExtra("description", toDo.description)
         intent.putExtra("time", toDo.getTimeString())
+        intent.putExtra("date", toDo.getDateString())
         intent.putExtra("id", toDo.id)
         intent.putExtra("type", type)
 
-
+        // Check if the alarm already exists
         val alarmExists = PendingIntent.getBroadcast(
             requireContext(),
             toDo.id!!,
@@ -145,6 +134,7 @@ class HomeFragment : TinDoFragment() {
 
         if (!alarmExists) {
 
+            // If it doesnt create a new pending intent with the todoid as the request code
             pendingIntent = PendingIntent.getBroadcast(
                 requireContext(),
                 toDo.id!!,
@@ -152,13 +142,14 @@ class HomeFragment : TinDoFragment() {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
+            // Set the alarm using the alarm service
             alarmService.setAlarm(
                 calendar.timeInMillis,
-                pendingIntent
+                pendingIntent,
+                toDo.id!!
             )
         }
     }
-
 
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -177,7 +168,6 @@ class HomeFragment : TinDoFragment() {
         }
     }
 
-
     private fun setAdapters() {
 
         adapter = TindoItemAdapter(
@@ -187,53 +177,53 @@ class HomeFragment : TinDoFragment() {
             },
             DeleteTindoItemClickListener { tindo ->
                 viewModel.onDeleteTindoClicked(tindo)
-                clearAlarm(tindo)
+                clearAlarm(tindo) // Delete the associated alarm
             }
         )
 
         binding.recyclerViewTodos.adapter = adapter
-
     }
 
     private fun setObservers() {
 
         setNavigationObservers()
 
-        lifecycle.coroutineScope.launch {
-            viewModel.getDailyToDos().collect {
+        viewModel.toDos.observe(
+            viewLifecycleOwner
+        ) { it ->
 
-                val list = mutableListOf<ToDo>()
+            val list = mutableListOf<ToDo>()
 
-                for (todo in it) {
-                    if (todo.date == null) {
-                        val dailyToDo = DailyToDo(
-                            todo.userEmail,
-                            todo.title,
-                            todo.description,
-                            todo.color,
-                            todo.time,
-                            todo.id
-                        )
-                        list.add(dailyToDo)
-                        setAlarm(dailyToDo, "daily")
-                    } else {
-                        val weeklyToDo = WeeklyToDo(
-                            todo.userEmail,
-                            todo.title,
-                            todo.description,
-                            todo.color,
-                            todo.time,
-                            todo.date,
-                            todo.id
-                        )
-                        list.add(weeklyToDo)
-                        setAlarm(weeklyToDo, "weekly")
-                    }
+            for (todo in it) {
+                if (todo.date == null) {
+                    val dailyToDo = DailyToDo(
+                        todo.userEmail,
+                        todo.title,
+                        todo.description,
+                        todo.color,
+                        todo.time,
+                        todo.id
+                    )
+                    list.add(dailyToDo)
+                    setAlarm(dailyToDo, DailyToDo.getTypeString())
+                } else {
+                    val weeklyToDo = WeeklyToDo(
+                        todo.userEmail,
+                        todo.title,
+                        todo.description,
+                        todo.color,
+                        todo.time,
+                        todo.date,
+                        todo.id
+                    )
+                    list.add(weeklyToDo)
+                    setAlarm(weeklyToDo, WeeklyToDo.getTypeString())
                 }
-                adapter.submitList(list)
             }
+            adapter.submitList(list)
         }
     }
+
 
     private fun setNavigationObservers() {
 
