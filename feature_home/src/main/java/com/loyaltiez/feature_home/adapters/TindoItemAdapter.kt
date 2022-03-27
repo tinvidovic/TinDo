@@ -4,6 +4,7 @@ import android.app.Application
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,8 @@ import com.loyaltiez.feature_home.databinding.TindoItemBinding
 class TindoItemAdapter(
     private val mApplication: Application,
     val mEditTindoItemClickListener: EditTindoItemClickListener,
-    val mDeleteTindoItemClickListener: DeleteTindoItemClickListener
+    val mDeleteTindoItemClickListener: DeleteTindoItemClickListener,
+    val mFavouriteTindoItemClickListener: FavouriteTindoItemClickListener
 ) : ListAdapter<ToDo, TindoItemAdapter.ViewHolder>(ToDoDiffCallback()) {
 
     // Called when the recycler view needs a view holder
@@ -39,7 +41,8 @@ class TindoItemAdapter(
             item,
             mApplication,
             mEditTindoItemClickListener,
-            mDeleteTindoItemClickListener
+            mDeleteTindoItemClickListener,
+            mFavouriteTindoItemClickListener
         )
 
     }
@@ -52,7 +55,8 @@ class TindoItemAdapter(
             item: ToDo,
             application: Application,
             editTindoItemClickListener: EditTindoItemClickListener,
-            deleteTindoItemClickListener: DeleteTindoItemClickListener
+            deleteTindoItemClickListener: DeleteTindoItemClickListener,
+            favouriteTindoItemClickListener: FavouriteTindoItemClickListener
         ) {
 
             // Get the resources for the view
@@ -61,9 +65,11 @@ class TindoItemAdapter(
             binding.tindo = item
             binding.editTindoItemClickListener = editTindoItemClickListener
             binding.deleteTindoItemClickListener = deleteTindoItemClickListener
+            binding.favouriteTindoItemClickListener = favouriteTindoItemClickListener
 
             if (item is WeeklyToDo) {
 
+                // Set the chip type accordingly
                 binding.chipTodoType.text = WeeklyToDo.getTypeString()
 
                 binding.tvTodoDate.text = item.getDateString()
@@ -75,21 +81,23 @@ class TindoItemAdapter(
                 binding.chipTodoType.text = DailyToDo.getTypeString()
             }
 
+            binding.iconFav.clearColorFilter()
+            // Favourite tindo logic
             if (item.favourite) {
 
                 binding.iconFav.setColorFilter(
-                    R.color.favouriteColor,
+                    ContextCompat.getColor(application.applicationContext, R.color.favouriteColor),
                     android.graphics.PorterDuff.Mode.MULTIPLY
                 )
             } else {
                 binding.iconFav.setColorFilter(
-                    R.color.primaryColor,
+                    ContextCompat.getColor(application.applicationContext, R.color.primaryColor),
                     android.graphics.PorterDuff.Mode.MULTIPLY
                 )
             }
 
+            // Set the card color
             binding.cardView.setCardBackgroundColor(application.getColor(item.color))
-
             binding.executePendingBindings()
         }
 
@@ -142,6 +150,11 @@ class EditTindoItemClickListener(val clickListener: (todo: ToDo) -> Unit) {
 }
 
 class DeleteTindoItemClickListener(val clickListener: (todo: ToDo) -> Unit) {
+
+    fun onClick(todo: ToDo) = clickListener(todo)
+}
+
+class FavouriteTindoItemClickListener(val clickListener: (todo: ToDo) -> Unit) {
 
     fun onClick(todo: ToDo) = clickListener(todo)
 }

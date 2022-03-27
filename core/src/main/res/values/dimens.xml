@@ -23,5 +23,10 @@
 
     <dimen name="radioGroup_screen_horizontal_margin">8dp</dimen>
     <dimen name="radioGroup_textView_top_margin">16dp</dimen>
+    <dimen name="card_view_margin">8dp</dimen>
+    <dimen name="tindo_layout_margin">8dp</dimen>
+    <dimen name="tindo_layout_padding">4dp</dimen>
+    <dimen name="icon_width">48dp</dimen>
+    <dimen name="icon_height">48dp</dimen>
 
 </resources>

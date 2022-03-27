@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.loyaltiez.core.broadcast_receivers.AlarmReceiver
 import com.loyaltiez.core.domain.model.todo.DailyToDo
 import com.loyaltiez.core.domain.model.todo.ToDo
@@ -23,6 +26,7 @@ import com.loyaltiez.core.services.AlarmService
 import com.loyaltiez.feature_home.R
 import com.loyaltiez.feature_home.adapters.DeleteTindoItemClickListener
 import com.loyaltiez.feature_home.adapters.EditTindoItemClickListener
+import com.loyaltiez.feature_home.adapters.FavouriteTindoItemClickListener
 import com.loyaltiez.feature_home.adapters.TindoItemAdapter
 import com.loyaltiez.feature_home.databinding.HomeFragmentBinding
 import com.loyaltiez.feature_home.presentation.view_models.HomeViewModel
@@ -139,7 +143,7 @@ class HomeFragment : TinDoFragment() {
                 requireActivity().applicationContext,
                 toDo.id!!,
                 intent,
-                PendingIntent.FLAG_CANCEL_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             // Set the alarm using the alarm service
@@ -178,8 +182,17 @@ class HomeFragment : TinDoFragment() {
             DeleteTindoItemClickListener { tindo ->
                 viewModel.onDeleteTindoClicked(tindo)
                 clearAlarm(tindo) // Delete the associated alarm
+            },
+            FavouriteTindoItemClickListener { tindo ->
+                viewModel.onFavouriteTindoClicked(tindo)
             }
         )
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.recyclerViewTodos.layoutManager = GridLayoutManager(requireContext(), 2)
+        } else {
+            binding.recyclerViewTodos.layoutManager = LinearLayoutManager(requireContext())
+        }
 
         binding.recyclerViewTodos.adapter = adapter
     }
@@ -202,7 +215,8 @@ class HomeFragment : TinDoFragment() {
                         todo.description,
                         todo.color,
                         todo.time,
-                        todo.id
+                        todo.id,
+                        todo.favourite
                     )
                     list.add(dailyToDo)
                     setAlarm(dailyToDo, DailyToDo.getTypeString())
@@ -214,7 +228,8 @@ class HomeFragment : TinDoFragment() {
                         todo.color,
                         todo.time,
                         todo.date,
-                        todo.id
+                        todo.id,
+                        todo.favourite
                     )
                     list.add(weeklyToDo)
                     setAlarm(weeklyToDo, WeeklyToDo.getTypeString())

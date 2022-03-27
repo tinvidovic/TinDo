@@ -32,6 +32,9 @@ class HomeViewModel(private val mApplication: Application) :
     private val deleteToDoUseCase =
         ((mApplication as TindoApplication).appContainer as HomeActivityContainer).deleteToDoUseCase
 
+    private val insertToDoUseCase =
+        ((mApplication as TindoApplication).appContainer as HomeActivityContainer).insertToDoUseCase
+
     init {
 
         getToDos()
@@ -71,7 +74,7 @@ class HomeViewModel(private val mApplication: Application) :
     }
 
     // METHODS:
-    fun getToDos() {
+    private fun getToDos() {
 
         viewModelScope.launch {
 
@@ -90,6 +93,17 @@ class HomeViewModel(private val mApplication: Application) :
         }
     }
 
+    private fun favouriteToDO(todo: ToDo) {
+
+        viewModelScope.launch {
+
+            // Toggle the favourite field and insert
+            todo.toggleFavourite()
+            insertToDoUseCase(todo)
+
+        }
+    }
+
     // CLICK HANDLERS:
 
     fun onCreateToDoClicked() {
@@ -105,5 +119,10 @@ class HomeViewModel(private val mApplication: Application) :
     fun onDeleteTindoClicked(tindo: ToDo) {
 
         deleteToDo(tindo)
+    }
+
+    fun onFavouriteTindoClicked(tindo: ToDo) {
+
+        favouriteToDO(tindo)
     }
 }

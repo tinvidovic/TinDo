@@ -34,6 +34,7 @@ class AlarmService(private val context: Context) {
     fun removeAlarm(pendingIntent: PendingIntent, requestCode: Int) {
 
         alarmManager?.cancel(pendingIntent)
+        pendingIntent.cancel()
 
         removeAlarmId(requestCode)
     }

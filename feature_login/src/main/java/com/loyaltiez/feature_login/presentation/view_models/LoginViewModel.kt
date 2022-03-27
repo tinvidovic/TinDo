@@ -97,10 +97,12 @@ class LoginViewModel(val mApplication: Application) :
 
                     mLoginResponse.value = result
                 }
-            }catch (e: IOException){
-                mLoginResponse.value = NetworkResource.Error(mApplication.resources.getString(R.string.io_exception_error_message))
-            }catch (e: HttpException){
-                mLoginResponse.value = NetworkResource.Error(mApplication.resources.getString(R.string.http_exception_error_message))
+            } catch (e: IOException) {
+                mLoginResponse.value =
+                    NetworkResource.Error(mApplication.resources.getString(R.string.io_exception_error_message))
+            } catch (e: HttpException) {
+                mLoginResponse.value =
+                    NetworkResource.Error(mApplication.resources.getString(R.string.http_exception_error_message))
             }
         }
     }

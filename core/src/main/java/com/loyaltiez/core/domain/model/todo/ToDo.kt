@@ -1,6 +1,7 @@
 package com.loyaltiez.core.domain.model.todo
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.loyaltiez.core.helper.converters.convertDateToString
@@ -25,6 +26,7 @@ open class ToDo(
     open var date: Date?,
     @PrimaryKey(autoGenerate = true)
     open var id: Int? = null,
+    @ColumnInfo(name = "favourite")
     open var favourite: Boolean = false
 ) : Parcelable {
 
@@ -35,6 +37,11 @@ open class ToDo(
     fun getTimeString(): String = convertTimeToString(time)
 
     fun getDateString(): String = convertDateToString(date)
+
+    fun toggleFavourite() {
+
+        favourite = favourite.not()
+    }
 
     override fun hashCode(): Int {
         var result = userEmail.hashCode()
