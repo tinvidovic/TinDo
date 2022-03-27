@@ -39,6 +39,10 @@
     <string name="description_too_long_error">Description too long</string>
     <string name="remind_me_at_error">Select a time</string>
     <string name="starting_on_error">Select a date</string>
+    <string name="io_exception_error_message">IOException</string>
+    <string name="http_exception_error_message">HttpException</string>
+    <string name="io_exception_error_toast">Something went wrong. Check your internet connection and try again.</string>
+    <string name="http_exception_error_toast">Oops somehting went wrong. Please try again later.</string>
 
     <!-- Notifications -->
     <string name="channel_name">Tindo Notifications</string>
@@ -52,6 +56,5 @@
     <!-- Drawer View -->
     <string name="tv_logged_in_as">Logged in as:</string>
     <string name="menu_item_log_out">Log Out</string>
-
 
 </resources>

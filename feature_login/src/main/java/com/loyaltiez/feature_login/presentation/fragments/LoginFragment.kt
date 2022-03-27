@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.view.children
 import androidx.core.widget.doOnTextChanged
@@ -85,12 +86,34 @@ class LoginFragment : TinDoFragment() {
                 is NetworkResource.Error -> {
                     binding.progressBar.hide()
 
-                    viewModel.onLoginError()
-
+                    when (it.message) {
+                        getString(R.string.io_exception_error_message) -> {
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.io_exception_error_toast),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        getString(R.string.http_exception_error_message) -> {
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.http_exception_error_toast),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        else -> {
+                            viewModel.onLoginError()
+                        }
+                    }
                     setUIEnableability(true)
                 }
                 else -> {
-                    // Shouldn't happen, faily gracefuly
+                    // Shouldn't happen, fail gracefully
+                    Toast.makeText(
+                        requireContext(),
+                        "Oops somehting went wrong. Please try again later.",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

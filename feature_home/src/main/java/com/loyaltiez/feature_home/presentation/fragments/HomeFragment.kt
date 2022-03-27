@@ -84,11 +84,11 @@ class HomeFragment : TinDoFragment() {
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun clearAlarm(toDo: ToDo) {
 
-        alarmService = AlarmService(requireContext())
+        alarmService = AlarmService(requireActivity().applicationContext)
         val intent = Intent(requireActivity(), AlarmReceiver::class.java)
 
         pendingIntent = PendingIntent.getBroadcast(
-            requireContext(),
+            requireActivity().applicationContext,
             toDo.id!!,
             intent,
             PendingIntent.FLAG_NO_CREATE
@@ -113,7 +113,7 @@ class HomeFragment : TinDoFragment() {
             set(Calendar.MILLISECOND, 0)
         }
 
-        val alarmService = AlarmService(requireContext())
+        val alarmService = AlarmService(requireActivity().applicationContext)
 
         val intent = Intent(requireActivity(), AlarmReceiver::class.java)
 
@@ -126,7 +126,7 @@ class HomeFragment : TinDoFragment() {
 
         // Check if the alarm already exists
         val alarmExists = PendingIntent.getBroadcast(
-            requireContext(),
+            requireActivity().applicationContext,
             toDo.id!!,
             intent,
             PendingIntent.FLAG_NO_CREATE
@@ -136,10 +136,10 @@ class HomeFragment : TinDoFragment() {
 
             // If it doesnt create a new pending intent with the todoid as the request code
             pendingIntent = PendingIntent.getBroadcast(
-                requireContext(),
+                requireActivity().applicationContext,
                 toDo.id!!,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_CANCEL_CURRENT
             )
 
             // Set the alarm using the alarm service

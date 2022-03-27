@@ -159,6 +159,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             )
 
             alarmService.removeAlarm(pendingIntent, alarmId)
+
         }
 
     }

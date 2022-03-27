@@ -13,6 +13,8 @@ import com.loyaltiez.feature_login.R
 import com.loyaltiez.feature_login.di.LoginActivityContainer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 class LoginViewModel(val mApplication: Application) :
     AndroidViewModel(mApplication) {
@@ -88,9 +90,17 @@ class LoginViewModel(val mApplication: Application) :
 
         viewModelScope.launch {
 
-            loginUseCase(LoginInformation(email, password)).collect { result ->
+            try {
 
-                mLoginResponse.value = result
+
+                loginUseCase(LoginInformation(email, password)).collect { result ->
+
+                    mLoginResponse.value = result
+                }
+            }catch (e: IOException){
+                mLoginResponse.value = NetworkResource.Error(mApplication.resources.getString(R.string.io_exception_error_message))
+            }catch (e: HttpException){
+                mLoginResponse.value = NetworkResource.Error(mApplication.resources.getString(R.string.http_exception_error_message))
             }
         }
     }

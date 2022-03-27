@@ -11,6 +11,7 @@ The alarm service class, used for setting/removing the alarms and
 updating the sharedPreferences, with the currently set alarm ids
  */
 class AlarmService(private val context: Context) {
+
     private val alarmManager: AlarmManager? =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
 
@@ -18,7 +19,7 @@ class AlarmService(private val context: Context) {
     // and saves the alarmId in the Shared preferences
     fun setAlarm(timeInMillis: Long, pendingIntent: PendingIntent, requestCode: Int) {
         alarmManager?.let {
-            alarmManager.setExact(
+            alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 timeInMillis,
                 pendingIntent,
