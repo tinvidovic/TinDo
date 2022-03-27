@@ -77,7 +77,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val currentTime = Date(currentTimeInMillis)
 
         val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = convertStringToDate(date)?.time ?: System.currentTimeMillis()
+            timeInMillis = currentTimeInMillis
             set(Calendar.HOUR_OF_DAY, convertStringToTime(time).hours)
             set(Calendar.MINUTE, convertStringToTime(time).minutes)
             set(Calendar.SECOND, 0)
